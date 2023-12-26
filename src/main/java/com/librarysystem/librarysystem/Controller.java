@@ -1,10 +1,7 @@
 package com.librarysystem.librarysystem;
 
-import com.sun.javafx.scene.control.IntegerField;
 import javafx.fxml.FXML;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
@@ -25,14 +22,23 @@ public class Controller {
     void initialize(){
         confirmButton.setOnAction(event -> {
             String author = authorField.getText();
-            String name = nameField.getText();
+            /*String name = nameField.getText();
             String genre = genreField.getText();
             int number = Integer.parseInt(numberField.getText());
-            System.out.println(author + " - " + name + " - " + genre + " - " + number);
-            if (author.length() < 2 || name.length() < 2) return;
+            if (author.length() < 2 || name.length() < 2) return;*/
             DatabaseHandler db = new DatabaseHandler();
             try {
-                db.createBook(author, name, genre, number);
+                //db.createBook(author, name, genre, number);
+                //System.out.println(db.getBookById(1));
+                //System.out.println(db.getBookById(10));
+                Book[] books = db.getBooksByAuthor(author);
+                if (books == null) {
+                    System.out.println("EMPTY");
+                    return;
+                }
+                for (Book book : books){
+                    System.out.println(book);
+                }
             } catch (Exception e) {
                 System.out.println(e);
             }

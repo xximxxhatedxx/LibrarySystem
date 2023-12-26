@@ -23,8 +23,20 @@
 
     <TextField fx:id="numberField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-    <Button fx:id="confirmButton" alignment="CENTER" prefWidth="255.0" text="Confirm" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+    <Label text="Genres:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 
-
+    <Button fx:id="confirmButton" alignment="CENTER" prefWidth="255.0" text="Confirm" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 
 </GridPane>

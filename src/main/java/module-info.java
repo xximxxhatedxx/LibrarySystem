@@ -4,7 +4,6 @@ module com.librarysystem.librarysystem {
     requires java.sql;
     requires mysql.connector.j;
 
-
     opens com.librarysystem.librarysystem to javafx.fxml;
     exports com.librarysystem.librarysystem;
 }
