@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 public class DatabaseHandler extends Config {
-    Connection dbConnection = null;
+//    Connection dbConnection = null;
 
     public Connection getDbConnection()
             throws SQLException{
