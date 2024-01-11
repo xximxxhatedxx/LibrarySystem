@@ -15,7 +15,7 @@
     </rowConstraints>
 
     <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="400" prefWidth="600" GridPane.columnIndex="0" GridPane.rowIndex="0" text="Add book" fx:id="addBookButton"/>
-    <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="400" prefWidth="600" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="400" prefWidth="600" GridPane.columnIndex="0" GridPane.rowIndex="1" text="Log in/Registration" fx:id="logInRegistrButton"/>
     <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="400" prefWidth="600" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
     <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="400" prefWidth="600" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 </GridPane>

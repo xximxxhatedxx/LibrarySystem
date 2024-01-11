@@ -19,9 +19,12 @@ public class MainPageController {
     @FXML
     private Button addBookButton;
 
+    @FXML
+    private Button addUserButton;
+
 
     @FXML
-    void initialize() throws IOException{
+    void initialize() throws IOException {
         final int[] page = {0};
         addBookButton.setOnAction(event -> {
             try {
@@ -30,11 +33,26 @@ public class MainPageController {
                 System.out.println(e);
             }
         });
+        logInRegistrButton.setOnAction(event -> {
+            try {
+                switchToLogInRegistrButton(event);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        });
     }
 
     public void switchToAddBook(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("AddBook.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToLogInRegistrButton(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("logIn-RegistrButton.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

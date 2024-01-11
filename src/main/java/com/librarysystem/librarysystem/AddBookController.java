@@ -17,8 +17,7 @@ public class AddBookController {
     private TextField numberField;
     @FXML
     private TextField authorField;
-    @FXML
-    private TextField genreField;
+
     @FXML
     private TextField nameField;
 
