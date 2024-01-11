@@ -20,7 +20,7 @@ public class MainPageController {
     private Button addBookButton;
 
     @FXML
-    private Button addUserButton;
+    private Button logInRegistrButton;
 
 
     @FXML
