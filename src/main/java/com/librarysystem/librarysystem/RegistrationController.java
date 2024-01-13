@@ -4,11 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class AddUserController {
+public class RegistrationController {
     @FXML
     private Button addUserButton;
     @FXML
-    private Button logInButton;
+    private Button goToLogInButton;
     @FXML
     private TextField firstNameField;
     @FXML
