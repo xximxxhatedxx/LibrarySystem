@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class LogInController extends Main{
     @FXML
-    private Button logInButton;
-    @FXML
     private Button goToRegistrationButton;
+    @FXML
+    private Button logInButton;
     @FXML
     private TextField emailLogInField;
     @FXML
@@ -18,7 +18,6 @@ public class LogInController extends Main{
 
     @FXML
     void initialize() throws IOException {
-/*
         goToRegistrationButton.setOnAction(event -> {
             try {
                 switchToScene(event, "Registration.fxml");
@@ -26,6 +25,5 @@ public class LogInController extends Main{
                 System.out.println(e);
             }
         });
-*/
     }
 }
