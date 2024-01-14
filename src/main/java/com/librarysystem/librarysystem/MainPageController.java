@@ -51,7 +51,7 @@ public class MainPageController {
     }
 
     public void switchToLogInRegistrButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("logIn-RegistrButton.fxml"));
+        root = FXMLLoader.load(getClass().getResource("logIn.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
