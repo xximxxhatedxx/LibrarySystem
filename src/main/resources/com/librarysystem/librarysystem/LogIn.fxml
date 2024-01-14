@@ -3,36 +3,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-        >
+
 <AnchorPane prefHeight="438.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.librarysystem.librarysystem.LogInController">
       <Label layoutX="268.0" layoutY="55.0" text="Log In">
          <font>
-            <Font size="20.0" />
+            <Font size="20.0"/>
          </font>
       </Label>
-      <PasswordField id="passwordLogInField" layoutX="231.0" layoutY="170.0" />
-      <Button id="goToRegistrationButton" layoutX="194.0" layoutY="327.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" text="Registration" />
-      <TextField id="emailLogInField" layoutX="231.0" layoutY="124.0" />
+      <PasswordField id="passwordLogInField" layoutX="231.0" layoutY="170.0"/>
+      <Button id="goToRegistrationButton" layoutX="194.0" layoutY="327.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" text="Registration"/>
+      <TextField id="emailLogInField" layoutX="231.0" layoutY="124.0"/>
       <Label layoutX="166.0" layoutY="128.0" text="Email">
          <font>
-            <Font size="14.0" />
+            <Font size="14.0"/>
          </font>
       </Label>
       <Label layoutX="155.0" layoutY="174.0" text="Password">
          <font>
-            <Font size="14.0" />
+            <Font size="14.0"/>
          </font>
       </Label>
       <Label layoutX="284.0" layoutY="270.0" text="Or">
          <font>
-            <Font size="20.0" />
+            <Font size="20.0"/>
          </font>
       </Label>
       <Label layoutX="296.0" layoutY="201.0" text="Forgott password?">
          <font>
-            <Font size="10.0" />
+            <Font size="10.0"/>
          </font>
       </Label>
-   <Button id="logInButton" layoutX="280.0" layoutY="237.0" mnemonicParsing="false" text="Ok" />
-
+   <Button id="logInButton" layoutX="280.0" layoutY="237.0" mnemonicParsing="false" text="Ok"/>
 </AnchorPane>

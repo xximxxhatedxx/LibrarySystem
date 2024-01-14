@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class LogInController {
+import java.io.IOException;
+
+public class LogInController extends Main{
     @FXML
     private Button logInButton;
     @FXML
@@ -14,4 +16,16 @@ public class LogInController {
     @FXML
     private TextField passwordLogInField;
 
+    @FXML
+    void initialize() throws IOException {
+/*
+        goToRegistrationButton.setOnAction(event -> {
+            try {
+                switchToScene(event, "Registration.fxml");
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        });
+*/
+    }
 }

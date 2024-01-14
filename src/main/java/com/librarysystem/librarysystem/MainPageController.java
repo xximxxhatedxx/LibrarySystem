@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainPageController {
+public class MainPageController extends Main{
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -26,36 +26,19 @@ public class MainPageController {
 
     @FXML
     void initialize() throws IOException {
-        final int[] page = {0};
         addBookButton.setOnAction(event -> {
             try {
-                switchToAddBook(event);
+                switchToScene(event, "AddBook.fxml");
             } catch (IOException e) {
                 System.out.println(e);
             }
         });
         logInRegistrButton.setOnAction(event -> {
             try {
-                switchToLogInRegistrButton(event);
+                switchToScene(event, "LogIn.fxml");
             } catch (IOException e) {
                 System.out.println(e);
             }
         });
-    }
-
-    public void switchToAddBook(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AddBook.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToLogInRegistrButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("logIn.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 }
