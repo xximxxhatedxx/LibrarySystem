@@ -11,7 +11,7 @@
          </font>
       </Label>
       <PasswordField id="passwordLogInField" layoutX="231.0" layoutY="170.0" styleClass="input" stylesheets="@style.css" />
-      <Button id="goToRegistrationButton" layoutX="194.0" layoutY="327.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" styleClass="inactivenButton" stylesheets="@style.css" text="Registration" />
+      <Button fx:id="goToRegistrationButton" layoutX="194.0" layoutY="327.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" styleClass="inactivenButton" stylesheets="@style.css" text="Registration" />
       <TextField id="emailLogInField" layoutX="231.0" layoutY="124.0" styleClass="input" stylesheets="@style.css" />
       <Label layoutX="166.0" layoutY="128.0" text="Email">
          <font>
@@ -28,7 +28,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="296.0" layoutY="201.0" text="Forgott password?">
+      <Label layoutX="296.0" layoutY="201.0" text="Forgot password?">
          <font>
             <Font size="10.0" />
          </font>
