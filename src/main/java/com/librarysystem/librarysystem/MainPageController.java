@@ -12,14 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainPageController extends Main{
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
     @FXML
     private Button addBookButton;
-
-
     @FXML
     private Button logInRegistrButton;
 
