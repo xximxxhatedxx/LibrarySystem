@@ -19,10 +19,16 @@
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-    <Button fx:id="logInRegistrButton" alignment="CENTER" minWidth="50" mnemonicParsing="false" prefHeight="300" prefWidth="500" styleClass="mainButton" stylesheets="@style.css" text="Log in/Registration" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <Button fx:id="logInRegistrButton" alignment="CENTER" minWidth="50" mnemonicParsing="false" prefHeight="300" prefWidth="500" styleClass="mainButton" stylesheets="@style.css" text="Log in" GridPane.columnIndex="0" GridPane.rowIndex="1">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-    <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="300" prefWidth="500" styleClass="mainButton" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-    <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="300" prefWidth="500" styleClass="mainButton" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="300" prefWidth="500" styleClass="mainButton" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="0">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></Button>
+    <Button alignment="CENTER" minWidth="100" mnemonicParsing="false" prefHeight="300" prefWidth="500" styleClass="mainButton" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></Button>
 </GridPane>

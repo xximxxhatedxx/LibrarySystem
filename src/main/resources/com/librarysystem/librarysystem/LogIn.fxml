@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -10,9 +11,18 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <PasswordField id="passwordLogInField" layoutX="231.0" layoutY="170.0" styleClass="input" stylesheets="@style.css" />
-      <Button fx:id="goToRegistrationButton" layoutX="194.0" layoutY="327.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" styleClass="inactivenButton" stylesheets="@style.css" text="Registration" />
-      <TextField id="emailLogInField" layoutX="231.0" layoutY="124.0" styleClass="input" stylesheets="@style.css" />
+      <PasswordField id="passwordLogInField" layoutX="231.0" layoutY="170.0" styleClass="input" stylesheets="@style.css">
+      <cursor>
+         <Cursor fx:constant="TEXT" />
+      </cursor></PasswordField>
+      <Button fx:id="goToRegistrationButton" layoutX="194.0" layoutY="327.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" styleClass="inactivenButton" stylesheets="@style.css" text="Registration">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></Button>
+      <TextField id="emailLogInField" layoutX="231.0" layoutY="124.0" styleClass="input" stylesheets="@style.css">
+      <cursor>
+         <Cursor fx:constant="TEXT" />
+      </cursor></TextField>
       <Label layoutX="166.0" layoutY="128.0" text="Email">
          <font>
             <Font size="14.0" />
@@ -23,7 +33,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="284.0" layoutY="270.0" text="Or">
+      <Label layoutX="284.0" layoutY="279.0" text="Or">
          <font>
             <Font size="20.0" />
          </font>
@@ -36,10 +46,16 @@
    <Button id="logInButton" layoutX="266.0" layoutY="233.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" styleClass="activeButton" stylesheets="@style.css" text="OK">
       <font>
          <Font size="7.0" />
-      </font></Button>
+      </font>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></Button>
    <Button layoutX="14.0" layoutY="400.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="55.0" style="-fx-background-color: #c7bfb1b4;" text="BACK">
       <font>
          <Font size="11.0" />
       </font>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
    </Button>
 </AnchorPane>

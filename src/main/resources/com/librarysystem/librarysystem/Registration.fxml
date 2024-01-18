@@ -1,48 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="backgroundFon" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.RegistrationController">
 
-      <Button id="addUserButton" layoutX="334.0" layoutY="304.0" mnemonicParsing="false" styleClass="activeButton" stylesheets="@style.css" text="Add user" />
-      <Button fx:id="goToLogInButton" layoutX="192.0" layoutY="303.0" mnemonicParsing="false" styleClass="inactivenButton" stylesheets="@style.css" text="Log in" />
+      <Button id="addUserButton" layoutX="334.0" layoutY="304.0" mnemonicParsing="false" styleClass="activeButton" stylesheets="@style.css" text="Add user">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></Button>
+      <Button fx:id="goToLogInButton" layoutX="192.0" layoutY="303.0" mnemonicParsing="false" styleClass="inactivenButton" stylesheets="@style.css" text="Log in">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></Button>
 
-      <Label layoutX="253.0" layoutY="34.0" text="Registration Form">
+      <Label layoutX="221.0" layoutY="28.0" text="Registration Form">
       <font>
-         <Font size="13.0" />
+         <Font size="20.0" />
       </font></Label>
       <Label layoutX="196.0" layoutY="83.0" text="Fisrt name">
       <font>
-         <Font size="13.0" />
+         <Font size="14.0" />
       </font></Label>
       <Label layoutX="196.0" layoutY="122.0" text="Last name">
       <font>
-         <Font size="13.0" />
+         <Font size="14.0" />
       </font></Label>
       <Label layoutX="219.0" layoutY="165.0" text="Email">
       <font>
-         <Font size="13.0" />
+         <Font size="14.0" />
       </font></Label>
       <Label layoutX="198.0" layoutY="204.0" text="Password">
       <font>
-         <Font size="13.0" />
+         <Font size="14.0" />
       </font></Label>
       <Label layoutX="155.0" layoutY="244.0" text="Re-Enter password">
       <font>
-         <Font size="13.0" />
+         <Font size="14.0" />
       </font></Label>
 
-      <TextField id="firstNameField" layoutX="290.0" layoutY="79.0" styleClass="input" stylesheets="@style.css" />
-      <TextField id="lastNameField" layoutX="290.0" layoutY="118.0" styleClass="input" stylesheets="@style.css" />
-      <TextField id="emailField" layoutX="290.0" layoutY="161.0" styleClass="input" stylesheets="@style.css" />
-      <TextField id="passwordField" layoutX="290.0" layoutY="200.0" styleClass="input" stylesheets="@style.css" />
-      <TextField layoutX="291.0" layoutY="240.0" styleClass="input" stylesheets="@style.css" />
+      <TextField id="firstNameField" layoutX="290.0" layoutY="79.0" styleClass="input" stylesheets="@style.css">
+      <cursor>
+         <Cursor fx:constant="TEXT" />
+      </cursor></TextField>
+      <TextField id="lastNameField" layoutX="290.0" layoutY="118.0" styleClass="input" stylesheets="@style.css">
+      <cursor>
+         <Cursor fx:constant="TEXT" />
+      </cursor></TextField>
+      <TextField id="emailField" layoutX="290.0" layoutY="161.0" styleClass="input" stylesheets="@style.css">
+      <cursor>
+         <Cursor fx:constant="TEXT" />
+      </cursor></TextField>
+      <TextField id="passwordField" layoutX="290.0" layoutY="200.0" styleClass="input" stylesheets="@style.css">
+      <cursor>
+         <Cursor fx:constant="TEXT" />
+      </cursor></TextField>
+      <TextField layoutX="291.0" layoutY="240.0" styleClass="input" stylesheets="@style.css">
+      <cursor>
+         <Cursor fx:constant="TEXT" />
+      </cursor></TextField>
    <Button layoutX="14.0" layoutY="362.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="54.0" style="-fx-background-color: #c7bfb1b4;" text="BACK">
       <font>
          <Font size="11.0" />
       </font>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
    </Button>
 
 </AnchorPane>
