@@ -13,21 +13,20 @@ import java.io.IOException;
 
 public class MainPageController extends Main{
     @FXML
-    private Button addBookButton;
+    private Button logInUser;
     @FXML
-    private Button logInRegistrButton;
-
+    private Button logInAdmin;
 
     @FXML
     void initialize() throws IOException {
-        addBookButton.setOnAction(event -> {
+        logInUser.setOnAction(event -> {
             try {
-                switchToScene(event, "AddBook.fxml");
+                switchToScene(event, "LogIn.fxml");
             } catch (IOException e) {
                 System.out.println(e);
             }
         });
-        logInRegistrButton.setOnAction(event -> {
+        logInAdmin.setOnAction(event -> {
             try {
                 switchToScene(event, "LogIn.fxml");
             } catch (IOException e) {

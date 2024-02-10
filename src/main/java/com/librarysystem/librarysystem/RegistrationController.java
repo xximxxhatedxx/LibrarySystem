@@ -19,12 +19,21 @@ public class RegistrationController extends Main{
     private TextField passwordField;
     @FXML
     private TextField password2Field;
+    @FXML
+    private Button goBack;
 
     @FXML
     void initialize() throws IOException {
         goToLogInButton.setOnAction(event -> {
             try {
                 switchToScene(event, "LogIn.fxml");
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        });
+        goBack.setOnAction(event -> {
+            try {
+                switchToScene(event, "MainPage.fxml");
             } catch (IOException e) {
                 System.out.println(e);
             }
