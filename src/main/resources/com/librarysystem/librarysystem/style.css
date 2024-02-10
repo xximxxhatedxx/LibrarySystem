@@ -13,13 +13,13 @@
 }
 .activeButton{
     -fx-background-color:#638889;
-    -fx-font-size:10pt;
+    -fx-font-size:14pt;
     -fx-text-fill:white;
     -fx-font-family: 'Montserrat', sans-serif;
 }
 .inactivenButton{
     -fx-background-color:#ada085;
-    -fx-font-size:10pt;
+    -fx-font-size:14pt;
     -fx-text-fill:white;
     -fx-font-family: 'Montserrat', sans-serif;
 }
