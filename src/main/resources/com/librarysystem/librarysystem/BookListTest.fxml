@@ -4,11 +4,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.BookListController">
    <children>
-      <VBox layoutX="221.0" layoutY="50.0" prefHeight="500.0" prefWidth="750.0">
+      <VBox fx:id="List" layoutX="221.0" layoutY="50.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #eeeeee;">
          <children>
-            <Pane prefHeight="50.0" prefWidth="758.0">
+            <!--<Pane prefHeight="45.0" prefWidth="750.0" style="-fx-background-color: #d9d9d9;">
+               <children>
+                  <Label layoutX="14.0" layoutY="10.0" prefHeight="25.0" prefWidth="300.0" text="Label">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="314.0" layoutY="13.0" prefHeight="25.0" prefWidth="300.0" text="Label">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+                  <Button layoutX="655.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="TAKE" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Pane>
+            <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" prefWidth="750.0" style="-fx-background-color: #d9d9d9;">
                <children>
                   <Label layoutX="14.0" layoutY="13.0" prefHeight="25.0" prefWidth="300.0" text="Label">
                      <opaqueInsets>
@@ -18,25 +42,28 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
+                  <Label alignment="CENTER" layoutX="314.0" layoutY="13.0" prefHeight="25.0" prefWidth="300.0" text="Label">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+                  <Button layoutX="655.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="TAKE" />
                </children>
-            </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="750.0" />
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="750.0" />
-            <Pane layoutX="10.0" layoutY="60.0" prefHeight="50.0" prefWidth="750.0" />
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="750.0" />
-            <Pane layoutX="10.0" layoutY="60.0" prefHeight="50.0" prefWidth="750.0" />
-            <Pane layoutX="10.0" layoutY="110.0" prefHeight="50.0" prefWidth="750.0" />
-            <Pane layoutX="10.0" layoutY="160.0" prefHeight="50.0" prefWidth="750.0" />
-            <Pane layoutX="10.0" layoutY="110.0" prefHeight="50.0" prefWidth="750.0" />
-            <Pane layoutX="10.0" layoutY="160.0" prefHeight="50.0" prefWidth="750.0" />
-         </children></VBox>
-      <ToolBar layoutX="819.0" layoutY="546.0" prefHeight="40.0" prefWidth="160.0">
+            </Pane>-->
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></VBox>
+      <ToolBar layoutX="811.0" layoutY="550.0" prefHeight="40.0" prefWidth="160.0">
         <items>
-          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
-          <TextField alignment="CENTER" prefWidth="35.0" promptText="dsdsds" text="100" />
+          <Button fx:id="back" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
+          <TextField fx:id="currentPage" alignment="CENTER" prefWidth="35.0" promptText="dsdsds" text="1" />
           <Label text="of" />
-          <TextField alignment="CENTER" prefWidth="35.0" promptText="dsdsds" text="100" />
-          <Button layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&gt;" />
+          <TextField fx:id="pagesCount" alignment="CENTER" editable="false" prefWidth="35.0" text="100" />
+          <Button fx:id="forward" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&gt;" />
 
         </items>
       </ToolBar>

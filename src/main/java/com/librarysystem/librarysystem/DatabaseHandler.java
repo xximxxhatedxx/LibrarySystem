@@ -1,5 +1,6 @@
 package com.librarysystem.librarysystem;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.*;
 
@@ -65,11 +66,20 @@ public class DatabaseHandler extends Config {
         return books.toArray(new Book[0]);
     }
 
+    public int getDbLength() throws SQLException {
+        String query = "SELECT COUNT(*) as 'length' FROM books";
+        PreparedStatement st = getDbConnection().prepareStatement(query);
+        ResultSet rs = st.executeQuery(query);
+        if (rs.next())
+            return rs.getInt("length");
+        return 0;
+    }
+
     public Book[] getLastBooks(int number) throws SQLException{
-        String query = "SELECT * FROM books ORDER BY idbooks DESC LIMIT 20 OFFSET ?";
+        String query = "SELECT * FROM books ORDER BY idbooks DESC LIMIT 10 OFFSET ?";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setInt(1, number);
+        preparedStatement.setInt(1, number * 10);
         ResultSet resSet = preparedStatement.executeQuery();
 
         List<Book> books = new ArrayList<Book>();
