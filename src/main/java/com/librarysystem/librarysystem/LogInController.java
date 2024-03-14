@@ -20,6 +20,11 @@ public class LogInController extends Main{
 
     @FXML
     void initialize() throws IOException {
+        logInButton.setOnAction(event ->{
+            String email =emailLogInField.getText();
+            String password = passwordLogInField.getText();
+
+        });
         goToRegistrationButton.setOnAction(event -> {
             try {
                 switchToScene(event, "Registration.fxml");

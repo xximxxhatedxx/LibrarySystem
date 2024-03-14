@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="450.0" prefWidth="600.0" styleClass="backgroundFon" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.RegistrationController">
 
-      <Button id="addUserButton" layoutX="330.0" layoutY="318.0" mnemonicParsing="false" styleClass="activeButton" stylesheets="@style.css" text="Add user">
+      <Button fx:id="addUserButton" layoutX="330.0" layoutY="318.0" mnemonicParsing="false" styleClass="activeButton" stylesheets="@style.css" text="Add user">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
@@ -41,23 +41,15 @@
          <Font size="14.0" />
       </font></Label>
 
-      <TextField id="firstNameField" layoutX="290.0" layoutY="79.0" styleClass="input" stylesheets="@style.css">
+      <TextField fx:id="firstNameField" layoutX="290.0" layoutY="79.0" styleClass="input" stylesheets="@style.css">
       <cursor>
          <Cursor fx:constant="TEXT" />
       </cursor></TextField>
-      <TextField id="lastNameField" layoutX="290.0" layoutY="118.0" styleClass="input" stylesheets="@style.css">
+      <TextField fx:id="lastNameField" layoutX="290.0" layoutY="118.0" styleClass="input" stylesheets="@style.css">
       <cursor>
          <Cursor fx:constant="TEXT" />
       </cursor></TextField>
-      <TextField id="emailField" layoutX="290.0" layoutY="161.0" styleClass="input" stylesheets="@style.css">
-      <cursor>
-         <Cursor fx:constant="TEXT" />
-      </cursor></TextField>
-      <TextField id="passwordField" layoutX="290.0" layoutY="200.0" styleClass="input" stylesheets="@style.css">
-      <cursor>
-         <Cursor fx:constant="TEXT" />
-      </cursor></TextField>
-      <TextField layoutX="291.0" layoutY="240.0" styleClass="input" stylesheets="@style.css">
+      <TextField fx:id="emailField" layoutX="290.0" layoutY="161.0" styleClass="input" stylesheets="@style.css">
       <cursor>
          <Cursor fx:constant="TEXT" />
       </cursor></TextField>
@@ -69,5 +61,7 @@
          <Cursor fx:constant="HAND" />
       </cursor>
    </Button>
+   <PasswordField fx:id="passwordField" layoutX="291.0" layoutY="201.0" styleClass="input" />
+   <PasswordField fx:id="rePasswordField" layoutX="291.0" layoutY="241.0" styleClass="input" stylesheets="@style.css" />
 
 </AnchorPane>
