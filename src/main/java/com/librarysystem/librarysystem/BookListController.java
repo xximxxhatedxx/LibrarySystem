@@ -30,7 +30,6 @@ class ListElement {
         author.setLayoutX(314.0);
         author.setLayoutY(10.0);
         author.setPrefSize(300,25);
-        //layoutX="655.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="TAKE"
         Button button = new Button("TAKE");
         button.setLayoutX(655.0);
         button.setLayoutY(10.0);
@@ -43,11 +42,13 @@ class ListElement {
 public class BookListController extends Main{
 
     @FXML
+    private TextField searchTextField;
+    @FXML
     private TextField currentPage;
     @FXML
-    private Button forward;
+    private Button forwardButton;
     @FXML
-    private Button back;
+    private Button backButton;
     @FXML
     private TextField pagesCount;
     @FXML
@@ -56,44 +57,67 @@ public class BookListController extends Main{
     private int pages;
     private int current;
 
+    void forward() {
+//            if (current + 1 == pages) return;
+//            List.getChildren().clear();
+//            try {
+//                books[0] = db.getLastBooks(++current);
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+    }
+
     @FXML
     void initialize() throws SQLException {
         List.setSpacing(5);
         DatabaseHandler db = new DatabaseHandler();
+        current = 0;
+        final Book[][] books = {db.getLastBooks(0)};
         int records = db.getDbLength();
         pages = (int)Math.ceil(records / 10.0);
-        current = 0;
         pagesCount.setText(Integer.toString(pages));
-        final Book[][] books = {db.getLastBooks(0)};
         for (Book book : books[0])
             List.getChildren().add(ListElement.create(book.name, book.author));
 
-        forward.setOnAction(event -> {
-            if (current + 1 == pages) return;
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            if (newValue == null || newValue.isEmpty() || newValue.isBlank()) return;
             List.getChildren().clear();
             try {
-                books[0] = db.getLastBooks(++current);
+                books[0] = db.getBooksByAuthor(newValue);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-
             for (Book book : books[0])
                 List.getChildren().add(ListElement.create(book.name, book.author));
-            currentPage.setText(Integer.toString(current+1));
         });
 
-        back.setOnAction(event -> {
-            if (current == 0) return;
-            List.getChildren().clear();
-            try {
-                books[0] = db.getLastBooks(--current);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            for (Book book : books[0])
-                List.getChildren().add(ListElement.create(book.name, book.author));
-            currentPage.setText(Integer.toString(current+1));
-        });
+//        forward.setOnAction(event -> {
+//            if (current + 1 == pages) return;
+//            List.getChildren().clear();
+//            try {
+//                books[0] = db.getLastBooks(++current);
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//            for (Book book : books[0])
+//                List.getChildren().add(ListElement.create(book.name, book.author));
+//            currentPage.setText(Integer.toString(current+1));
+//        });
+//
+//        back.setOnAction(event -> {
+//            if (current == 0) return;
+//            List.getChildren().clear();
+//            try {
+//                books[0] = db.getLastBooks(--current);
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//            for (Book book : books[0])
+//                List.getChildren().add(ListElement.create(book.name, book.author));
+//            currentPage.setText(Integer.toString(current+1));
+//        });
     }
 }

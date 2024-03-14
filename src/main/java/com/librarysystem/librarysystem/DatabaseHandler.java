@@ -46,10 +46,12 @@ public class DatabaseHandler extends Config {
     }
 
     public Book[] getBooksByAuthor(String author) throws SQLException{
-        String query = "SELECT * FROM books WHERE author LIKE ?";
+        String query = "SELECT * FROM books WHERE author LIKE ? UNION " +
+                "SELECT * FROM books WHERE author LIKE ? LIMIT 5";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setString(1, "%" + author + "%");
+        preparedStatement.setString(1, author + "%");
+        preparedStatement.setString(2, "%" + author + "%");
         ResultSet resSet = preparedStatement.executeQuery();
 
         List<Book> books = new ArrayList<Book>();
@@ -67,7 +69,7 @@ public class DatabaseHandler extends Config {
     }
 
     public int getDbLength() throws SQLException {
-        String query = "SELECT COUNT(*) as 'length' FROM books";
+        String query = "SELECT FOUND_ROWS() as length;";
         PreparedStatement st = getDbConnection().prepareStatement(query);
         ResultSet rs = st.executeQuery(query);
         if (rs.next())
@@ -76,7 +78,7 @@ public class DatabaseHandler extends Config {
     }
 
     public Book[] getLastBooks(int number) throws SQLException{
-        String query = "SELECT * FROM books ORDER BY idbooks DESC LIMIT 10 OFFSET ?";
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books ORDER BY idbooks DESC LIMIT 10 OFFSET ?";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
         preparedStatement.setInt(1, number * 10);
