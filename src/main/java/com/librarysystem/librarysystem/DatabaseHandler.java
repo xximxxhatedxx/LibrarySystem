@@ -97,4 +97,73 @@ public class DatabaseHandler extends Config {
 
         return books.toArray(new Book[0]);
     }
+
+    public void addUser(String name, String surname, String email, String password)
+            throws SQLException {
+        String query = "INSERT INTO users (name, surname, email, password) VALUES (?,?,?,?)";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, surname);
+        preparedStatement.setString(3, email);
+        preparedStatement.setString(4, password);
+
+        preparedStatement.executeUpdate();
+    }
+    public User getUserById(int id) throws SQLException{
+        String query = "SELECT * FROM users WHERE idusers = ? LIMIT 1";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setInt(1, id);
+        ResultSet resSet = preparedStatement.executeQuery();
+        if (!resSet.next()) return null;
+
+        return new User(
+                id,
+                resSet.getString("name"),
+                resSet.getString("surname"),
+                resSet.getString("email"),
+                resSet.getString("password")
+        );
+    }
+    public User[] getUserBySurname(String surname) throws SQLException{
+        String query = "SELECT * FROM users WHERE surname LIKE ?";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setString(1, "%" + surname + "%");
+        ResultSet resSet = preparedStatement.executeQuery();
+
+        List<User> users = new ArrayList<User>();
+        while (resSet.next()){
+            users.add(new User(
+                    resSet.getInt("idusers"),
+                    resSet.getString("name"),
+                    resSet.getString("surname"),
+                    resSet.getString("email"),
+                    resSet.getString("password")
+            ));
+        }
+
+        return users.toArray(new User[0]);
+    }
+    public User[] getUserByEmail(String email, String password) throws SQLException{
+        String query = "SELECT * FROM users WHERE email LIKE ? and password LIKE ?";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setString(1, "%" + email + "%");
+        preparedStatement.setString(2, "%" + password + "%");
+        ResultSet resSet = preparedStatement.executeQuery();
+
+        List<User> users = new ArrayList<User>();
+        while (resSet.next()){
+            users.add(new User(
+                    resSet.getInt("idusers"),
+                    resSet.getString("name"),
+                    resSet.getString("surname"),
+                    resSet.getString("email"),
+                    resSet.getString("password")
+            ));
+        }
+        return users.toArray(new User[0]);
+    }
 }
