@@ -38,7 +38,10 @@ public class LogInController extends Main{
             }
             DatabaseHandler db = new DatabaseHandler();
             try{
-                db.getUserByEmail(email, password);
+                User user = db.getUserByEmail(email, password);
+                if (user == null)
+                    "IDITE NAHUI";
+                "VHOD V AKAUNT"
             }catch (Exception e){
                 System.out.println(e);
             }

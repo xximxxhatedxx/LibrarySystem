@@ -146,24 +146,24 @@ public class DatabaseHandler extends Config {
 
         return users.toArray(new User[0]);
     }
-    public User[] getUserByEmail(String email, String password) throws SQLException{
-        String query = "SELECT * FROM users WHERE email LIKE ? and password LIKE ?";
+    public User getUserByEmail(String email, String password) throws SQLException{
+        String query = "SELECT * FROM users WHERE email LIKE ? LIMIT 1";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setString(1, "%" + email + "%");
-        preparedStatement.setString(2, "%" + password + "%");
+        preparedStatement.setString(1, email.trim());
         ResultSet resSet = preparedStatement.executeQuery();
 
-        List<User> users = new ArrayList<User>();
-        while (resSet.next()){
-            users.add(new User(
-                    resSet.getInt("idusers"),
-                    resSet.getString("name"),
-                    resSet.getString("surname"),
-                    resSet.getString("email"),
-                    resSet.getString("password")
-            ));
+        User user;
+        if (resSet.next()){
+            if (resSet.getString("password").equals(password))
+                return new User(
+                        resSet.getInt("idusers"),
+                        resSet.getString("name"),
+                        resSet.getString("surname"),
+                        resSet.getString("email"),
+                        resSet.getString("password")
+                );
         }
-        return users.toArray(new User[0]);
+        return null;
     }
 }
