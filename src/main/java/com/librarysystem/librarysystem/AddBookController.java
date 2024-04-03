@@ -33,12 +33,6 @@ public class AddBookController {
             DatabaseHandler db = new DatabaseHandler();
             try {
                 db.createBook(author, name, String.join(",", genre), number);
-                System.out.println(db.getBookById(1));
-                System.out.println(db.getBookById(10));
-                Book[] books = db.getLastBooks(page[0]++ * 20);
-                for (Book book : books) {
-                    System.out.println(book);
-                }
             } catch (Exception e) {
                 System.out.println(e);
             }

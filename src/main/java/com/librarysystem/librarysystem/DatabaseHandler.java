@@ -45,27 +45,15 @@ public class DatabaseHandler extends Config {
         );
     }
 
-    public Book[] getBooksByAuthor(String author) throws SQLException{
+    public ResultSet getBooksByAuthor(String author) throws SQLException{
         String query = "SELECT * FROM books WHERE author LIKE ? UNION " +
-                "SELECT * FROM books WHERE author LIKE ? LIMIT 5";
+                "SELECT * FROM books WHERE author LIKE ?";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
         preparedStatement.setString(1, author + "%");
         preparedStatement.setString(2, "%" + author + "%");
-        ResultSet resSet = preparedStatement.executeQuery();
 
-        List<Book> books = new ArrayList<Book>();
-        while (resSet.next()){
-            books.add(new Book(
-                    resSet.getInt("idbooks"),
-                    resSet.getString("author"),
-                    resSet.getString("name"),
-                    resSet.getString("genre"),
-                    resSet.getInt("number")
-            ));
-        }
-
-        return books.toArray(new Book[0]);
+        return preparedStatement.executeQuery();
     }
 
     public int getDbLength() throws SQLException {
@@ -77,25 +65,13 @@ public class DatabaseHandler extends Config {
         return 0;
     }
 
-    public Book[] getLastBooks(int number) throws SQLException{
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books ORDER BY idbooks DESC LIMIT 10 OFFSET ?";
+    public ResultSet getLastBooks() throws SQLException{
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books ORDER BY idbooks DESC";
 
-        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setInt(1, number * 10);
-        ResultSet resSet = preparedStatement.executeQuery();
+        Statement statement = getDbConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
 
-        List<Book> books = new ArrayList<Book>();
-        while (resSet.next()){
-            books.add(new Book(
-                    resSet.getInt("idbooks"),
-                    resSet.getString("author"),
-                    resSet.getString("name"),
-                    resSet.getString("genre"),
-                    resSet.getInt("number")
-            ));
-        }
-
-        return books.toArray(new Book[0]);
+        return statement.executeQuery(query);
     }
 
     public void addUser(String name, String surname, String email, String password)
