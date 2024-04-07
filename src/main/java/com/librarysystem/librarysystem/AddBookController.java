@@ -8,7 +8,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.io.IOException;
 
-public class AddBookController {
+public class AddBookController extends Main{
     @FXML
     private CheckComboBox genreCheckBox;
     @FXML
@@ -17,9 +17,10 @@ public class AddBookController {
     private TextField numberField;
     @FXML
     private TextField authorField;
-
     @FXML
     private TextField nameField;
+    @FXML
+    private Button goBack;
 
     @FXML
     void initialize() throws IOException {
@@ -37,6 +38,13 @@ public class AddBookController {
                 System.out.println(e);
             }
             System.out.println();
+        });
+        goBack.setOnAction(event -> {
+            try {
+                switchToScene(event, "ManageBook.fxml");
+            } catch (IOException e) {
+                System.out.println(e);
+            }
         });
     }
 }
