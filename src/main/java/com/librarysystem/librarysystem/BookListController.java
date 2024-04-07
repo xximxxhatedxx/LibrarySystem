@@ -30,6 +30,8 @@ public class BookListController extends Main{
 
     private int pages;
     private int current;
+    private AtomicReference<ResultSet> resultSet;
+    private boolean isMovingForward = true;
 
     Pane create(String name_, String author_) {
         Pane pane = new Pane();
@@ -54,95 +56,128 @@ public class BookListController extends Main{
         return pane;
     }
 
-    void forward() {
-//            if (current + 1 == pages) return;
-//            List.getChildren().clear();
-//            try {
-//                books[0] = db.getLastBooks(++current);
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-    }
-
     @FXML
     void initialize() throws SQLException {
         List.setSpacing(5);
         DatabaseHandler db = new DatabaseHandler();
-        current = 0;
-        AtomicReference<ResultSet> resultSet = new AtomicReference<>(db.getLastBooks());
+        current = 1;
+        resultSet = new AtomicReference<>(db.getLastBooks());
         int records = db.getDbLength();
         pages = (int)Math.ceil(records / 10.0);
         pagesCount.setText(Integer.toString(pages));
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             if (resultSet.get().next())
                 List.getChildren().add(create(
                         resultSet.get().getString("name"),
                         resultSet.get().getString("author")
                 ));
             else break;
+        }
 
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
             if (newValue == null || newValue.isEmpty() || newValue.isBlank()) {
                 try {
                     List.getChildren().clear();
                     resultSet.set(db.getLastBooks());
-                    for (int i = 0; i < 10; i++)
+                    current = 1;
+                    currentPage.setText(Integer.toString(current));
+                    pages = (int)Math.ceil(db.getDbLength() / 10.0);
+                    pagesCount.setText(Integer.toString(pages));
+                    isMovingForward = true;
+                    for (int i = 0; i < 10; i++) {
                         if (resultSet.get().next())
                             List.getChildren().add(create(
                                     resultSet.get().getString("name"),
                                     resultSet.get().getString("author")
                             ));
                         else break;
+                    }
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
                 return;
             }
             List.getChildren().clear();
+            current = 1;
+            currentPage.setText(Integer.toString(current));
+            isMovingForward = true;
             try {
                 resultSet.set(db.getBooksByAuthor(newValue));
-                for (int i = 0; i < 10; i++)
+                pages = (int)Math.ceil(db.getDbLength() / 10.0);
+                pagesCount.setText(Integer.toString(pages));
+
+                for (int i = 0; i < 10; i++) {
                     if (resultSet.get().next())
                         List.getChildren().add(create(
                                 resultSet.get().getString("name"),
                                 resultSet.get().getString("author")
                         ));
                     else break;
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        //ResultSet resultSet = db.getLastBooks();
+        forwardButton.setOnAction(event -> {
+            if (current == pages) return;
+            List.getChildren().clear();
 
-        //forward.setOnAction(event -> {
-        //    if (current + 1 == pages) return;
-        //    List.getChildren().clear();
-        //    try {
-        //        books[0] = db.getLastBooks(++current);
-        //    } catch (SQLException e) {
-        //        throw new RuntimeException(e);
-        //    }
-//
-        //    for (Book book : books[0])
-        //        List.getChildren().add(ListElement.create(book.name, book.author));
-        //    currentPage.setText(Integer.toString(current+1));
-        //});
-//
-        //back.setOnAction(event -> {
-        //    if (current == 0) return;
-        //    List.getChildren().clear();
-        //    try {
-        //        books[0] = db.getLastBooks(--current);
-        //    } catch (SQLException e) {
-        //        throw new RuntimeException(e);
-        //    }
-//
-        //    for (Book book : books[0])
-        //        List.getChildren().add(ListElement.create(book.name, book.author));
-        //    currentPage.setText(Integer.toString(current+1));
-        //});
+            try {
+                if (!isMovingForward){
+                    for (int i = 0; i < 9; i++) {
+                        resultSet.get().next();
+                    }
+                    isMovingForward = true;
+                }
+
+                for (int i = 0; i < 10; i++) {
+                    if (resultSet.get().next()) {
+                        List.getChildren().add(create(
+                                resultSet.get().getString("name"),
+                                resultSet.get().getString("author")
+                        ));
+                    }
+                    else break;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            currentPage.setText(Integer.toString(++current));
+        });
+
+        backButton.setOnAction(event -> {
+            if (current == 1) return;
+
+            try {
+                if (resultSet.get().getRow() == 0) resultSet.get().previous();
+
+                if (isMovingForward){
+                    for (int i = 0; i < List.getChildren().size() - 1; i++) {
+                        resultSet.get().previous();
+                    }
+                    isMovingForward = false;
+                }
+                List.getChildren().clear();
+
+                for (int i = 0; i < 10; i++) {
+                    if (resultSet.get().previous()) {
+                        List.getChildren().add(0, create(
+                                resultSet.get().getString("name"),
+                                resultSet.get().getString("author")
+                        ));
+                    }
+                    else break;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            currentPage.setText(Integer.toString(--current));
+        });
+
+        db.getBooksByAuthor("к");
     }
 }

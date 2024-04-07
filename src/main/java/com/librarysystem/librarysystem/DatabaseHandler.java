@@ -46,10 +46,14 @@ public class DatabaseHandler extends Config {
     }
 
     public ResultSet getBooksByAuthor(String author) throws SQLException{
-        String query = "SELECT * FROM books WHERE author LIKE ? UNION " +
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE author LIKE ? UNION " +
                 "SELECT * FROM books WHERE author LIKE ?";
 
-        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(
+                query,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY
+        );
         preparedStatement.setString(1, author + "%");
         preparedStatement.setString(2, "%" + author + "%");
 
