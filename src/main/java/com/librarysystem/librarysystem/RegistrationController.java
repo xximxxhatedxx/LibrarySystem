@@ -26,19 +26,11 @@ public class RegistrationController extends Main{
     private PasswordField rePasswordField;
     @FXML
     private Button goBack;
-    private void showErrorAlert() {
+    private void showErrorAlert(String text) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error!");
         alert.setHeaderText("Oops, I think you got it wrong.");
-        alert.setContentText("Passwords do not match");
-
-        alert.showAndWait();
-    }
-    public void showErrorEmptyAlert() {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error!");
-        alert.setHeaderText("Oops, I think you got it wrong.");
-        alert.setContentText("Fields must not be empty");
+        alert.setContentText(text);
 
         alert.showAndWait();
     }
@@ -65,13 +57,13 @@ public class RegistrationController extends Main{
             String password = passwordField.getText();
             String rePassword = rePasswordField.getText();
             if(!password.equals(rePassword)) {
-                showErrorAlert();
+                showErrorAlert("Passwords do not match");
             }else if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || rePassword.isEmpty())
-                { showErrorEmptyAlert();}
+                { showErrorAlert("Fields must not be empty");}
             DatabaseHandler db = new DatabaseHandler();
             try{
                 db.addUser(name, surname, email, password);
-                switchToScene(event, "Main.fxml");
+                switchToScene(event, "UserPage.fxml");
             }catch (Exception e){
                 System.out.println(e);
             }

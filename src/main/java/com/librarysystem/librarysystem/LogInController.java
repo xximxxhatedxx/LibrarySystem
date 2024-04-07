@@ -1,9 +1,11 @@
 package com.librarysystem.librarysystem;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
@@ -19,41 +21,51 @@ public class LogInController extends Main{
     @FXML
     private Button goBack;
 
-    public void showErrorEmptyAlert() {
+
+    public void showError(String text) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error!");
         alert.setHeaderText("Oops, I think you got it wrong.");
-        alert.setContentText("Fields must not be empty");
+        alert.setContentText(text);
 
         alert.showAndWait();
     }
+
     @FXML
     void initialize() throws IOException {
         logInButton.setOnAction(event ->{
-            String email =emailLogInField.getText();
+            String email = emailLogInField.getText();
             String password = passwordLogInField.getText();
 
             if (email.isEmpty() || password.isEmpty()){
-                showErrorEmptyAlert();
+                showError("Fields must not be empty");
             }
             DatabaseHandler db = new DatabaseHandler();
             try{
                 User user = db.getUserByEmail(email, password);
                 if (user == null)
-                    "IDITE NAHUI";
-                "VHOD V AKAUNT"
+                    showError("Account login error. Incorrect password");
+                else{
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("UserPage.fxml"));
+                    AnchorPane root = loader.load();
+                    System.out.println("hello");
+                    UserPageController controller = loader.getController();
+                    controller.setUserInfo(user);
+                    switchToScene(event, "UserPage.fxml");
+                }
             }catch (Exception e){
                 System.out.println(e);
             }
         });
+
         goToRegistrationButton.setOnAction(event -> {
             try {
                 switchToScene(event, "Registration.fxml");
             } catch (IOException e) {
                 System.out.println(e);
             }
-
         });
+
         goBack.setOnAction(event -> {
             try {
                 switchToScene(event, "MainPage.fxml");

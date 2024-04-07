@@ -51,15 +51,20 @@
         <String fx:value="Romance" />
         <String fx:value="Adventure" />
     </CheckComboBox>
-
-    <Button fx:id="confirmButton" alignment="CENTER" prefHeight="30.0" prefWidth="273.0" styleClass="activeButton" stylesheets="@style.css" text="Confirm" GridPane.columnSpan="2" GridPane.rowIndex="4">
+    <Button fx:id="confirmButton" alignment="CENTER" prefHeight="40.0" prefWidth="149.0" styleClass="activeButton" stylesheets="@style.css" text="Confirm" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
       <font>
          <Font size="23.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
+    <Button fx:id="goBack" layoutX="25.0" layoutY="400.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="55.0" style="-fx-background-color: #c7bfb1b4;" text="BACK">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Button>
    <columnConstraints>
+      <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
    </columnConstraints>

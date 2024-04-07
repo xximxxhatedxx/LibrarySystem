@@ -130,7 +130,7 @@ public class DatabaseHandler extends Config {
         String query = "SELECT * FROM users WHERE surname LIKE ?";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setString(1, "%" + surname + "%");
+        preparedStatement.setString(1, surname.trim());
         ResultSet resSet = preparedStatement.executeQuery();
 
         List<User> users = new ArrayList<User>();
@@ -145,6 +145,9 @@ public class DatabaseHandler extends Config {
         }
 
         return users.toArray(new User[0]);
+    }
+    public User getUserInfo(String name, String surname, String email, int id){
+        return new User(name, surname, email, id);
     }
     public User getUserByEmail(String email, String password) throws SQLException{
         String query = "SELECT * FROM users WHERE email LIKE ? LIMIT 1";
@@ -163,7 +166,10 @@ public class DatabaseHandler extends Config {
                         resSet.getString("email"),
                         resSet.getString("password")
                 );
+
         }
         return null;
     }
+
+
 }
