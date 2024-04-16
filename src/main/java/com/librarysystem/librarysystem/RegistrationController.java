@@ -1,6 +1,7 @@
 package com.librarysystem.librarysystem;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -8,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class RegistrationController extends Main{
     @FXML
@@ -26,6 +28,7 @@ public class RegistrationController extends Main{
     private PasswordField rePasswordField;
     @FXML
     private Button goBack;
+
     private void showErrorAlert(String text) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error!");
@@ -63,9 +66,13 @@ public class RegistrationController extends Main{
             DatabaseHandler db = new DatabaseHandler();
             try{
                 db.addUser(name, surname, email, password);
-                switchToScene(event, "UserPage.fxml");
-            }catch (Exception e){
-                System.out.println(e);
+                FXMLLoader loader = switchToScene(event, "UserPage.fxml");
+                UserPageController controller = loader.getController();
+                controller.setUserInfo(new User(name, surname, email, password));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             System.out.println();
         });

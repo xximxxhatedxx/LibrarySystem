@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <TextField layoutX="83.0" layoutY="25.0" prefHeight="25.0" prefWidth="417.0" />
-      <VBox layoutX="232.0" layoutY="106.0" prefHeight="380.0" prefWidth="504.0">
-         <children>
-            <ButtonBar prefHeight="40.0" prefWidth="200.0">
-              <buttons>
-                <Button mnemonicParsing="false" text="Button" />
-              </buttons>
-            </ButtonBar>
-         </children></VBox>
-   </children>
-</Pane>
+<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.ManageBookController">
+    <children>
+        <VBox fx:id="List" layoutX="221.0" layoutY="50.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #eeeeee;">
+            <children>
+
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding></VBox>
+        <ToolBar layoutX="811.0" layoutY="550.0" prefHeight="40.0" prefWidth="160.0">
+            <items>
+                <Button fx:id="backButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
+                <TextField fx:id="currentPage" alignment="CENTER" prefWidth="35.0" promptText="dsdsds" text="1" />
+                <Label text="of" />
+                <TextField fx:id="pagesCount" alignment="CENTER" editable="false" prefWidth="35.0" text="100" />
+                <Button fx:id="forwardButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&gt;" />
+
+            </items>
+        </ToolBar>
+        <TextField fx:id="searchTextField" layoutX="221.0" layoutY="25.0" prefHeight="25.0" prefWidth="750.0" />
+      <Button fx:id="addBookButton" layoutX="122.0" layoutY="25.0" mnemonicParsing="false" text="Add book" />
+      <Button fx:id="goBackButton" layoutX="46.0" layoutY="25.0" mnemonicParsing="false" text="BACK" />
+    </children>
+</AnchorPane>

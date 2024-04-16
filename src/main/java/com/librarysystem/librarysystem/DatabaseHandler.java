@@ -27,6 +27,16 @@ public class DatabaseHandler extends Config {
 
         preparedStatement.executeUpdate();
     }
+    public void deleteBook(String author, String name) throws SQLException {
+//        String query = "DELETE FROM books WHERE author = ? AND name = ?";
+//
+//        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+//        preparedStatement.setString(1, author);
+//        preparedStatement.setString(2, name);
+//
+//        preparedStatement.executeUpdate();
+        System.out.println("Button clicked for element " + name + " " + author);
+    }
 
     public Book getBookById(int id) throws SQLException{
         String query = "SELECT * FROM books WHERE idbooks = ? LIMIT 1";
@@ -89,6 +99,7 @@ public class DatabaseHandler extends Config {
         preparedStatement.setString(4, password);
 
         preparedStatement.executeUpdate();
+
     }
     public User getUserById(int id) throws SQLException{
         String query = "SELECT * FROM users WHERE idusers = ? LIMIT 1";
@@ -126,9 +137,6 @@ public class DatabaseHandler extends Config {
 
         return users.toArray(new User[0]);
     }
-    public User getUserInfo(String name, String surname, String email, int id){
-        return new User(name, surname, email, id);
-    }
     public User getUserByEmail(String email, String password) throws SQLException{
         String query = "SELECT * FROM users WHERE email LIKE ? LIMIT 1";
 
@@ -136,7 +144,6 @@ public class DatabaseHandler extends Config {
         preparedStatement.setString(1, email.trim());
         ResultSet resSet = preparedStatement.executeQuery();
 
-        User user;
         if (resSet.next()){
             if (resSet.getString("password").equals(password))
                 return new User(

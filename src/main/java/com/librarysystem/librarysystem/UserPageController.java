@@ -27,7 +27,6 @@ public class UserPageController extends Main {
         nameLabel.setText(user.getName());
         surnameLabel.setText(user.getSurname());
         emailLabel.setText(user.getEmail());
-        idLabel.setText(String.valueOf(user.getId()));
     }
     @FXML
     void initialize() throws IOException {
