@@ -17,4 +17,7 @@ public class CurrentSession {
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
+    public void deleteSession(){
+        currentUser = null;
+    }
 }

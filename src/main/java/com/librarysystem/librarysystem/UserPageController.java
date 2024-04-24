@@ -30,15 +30,16 @@ public class UserPageController extends Main {
     }
     @FXML
     void initialize() throws IOException {
+        User currentUser = CurrentSession.getInstance().getCurrentUser();
+        setUserInfo(currentUser);
         logOutButton.setOnAction(event ->{
             try {
+                CurrentSession.getInstance().deleteSession();
                 switchToScene(event, "MainPage.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
-        User currentUser = CurrentSession.getInstance().getCurrentUser();
-        setUserInfo(currentUser);
     }
 
 }
