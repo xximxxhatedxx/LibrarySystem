@@ -46,9 +46,8 @@ public class LogInController extends Main{
                 if (user == null)
                     showError("Account login error. Incorrect password");
                 else{
-                    FXMLLoader loader = switchToScene(event, "UserPage.fxml");
-                    UserPageController controller = loader.getController();
-                    controller.setUserInfo(user);
+                    CurrentSession.getInstance().setCurrentUser(user);
+                    switchToScene(event, "UserPage.fxml");
                 }
             }catch (Exception e){
                 System.out.println(e);

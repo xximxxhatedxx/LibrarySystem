@@ -23,7 +23,7 @@ public class UserPageController extends Main {
     private Button logOutButton;
     private ModuleLayer.Controller LogInController;
 
-    public void setUserInfo(User user) {
+    private void setUserInfo(User user) {
         nameLabel.setText(user.getName());
         surnameLabel.setText(user.getSurname());
         emailLabel.setText(user.getEmail());
@@ -37,7 +37,8 @@ public class UserPageController extends Main {
                 throw new RuntimeException(e);
             }
         });
-
+        User currentUser = CurrentSession.getInstance().getCurrentUser();
+        setUserInfo(currentUser);
     }
 
 }

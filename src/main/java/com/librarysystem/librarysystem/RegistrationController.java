@@ -66,9 +66,9 @@ public class RegistrationController extends Main{
             DatabaseHandler db = new DatabaseHandler();
             try{
                 db.addUser(name, surname, email, password);
-                FXMLLoader loader = switchToScene(event, "UserPage.fxml");
-                UserPageController controller = loader.getController();
-                controller.setUserInfo(new User(name, surname, email, password));
+                switchToScene(event, "UserPage.fxml");
+                User user = new User(name, surname, email, password);
+                CurrentSession.getInstance().setCurrentUser(user);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {

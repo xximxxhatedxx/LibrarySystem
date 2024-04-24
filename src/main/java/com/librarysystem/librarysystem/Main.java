@@ -18,9 +18,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage _stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("ManageBook.fxml"));
         _stage.setTitle("main-page");
-        _stage.setScene(new Scene(root, 1050,600));
+        _stage.setScene(new Scene(root, 1024,600));
         _stage.setResizable(false);
         _stage.show();
     }
@@ -29,13 +29,12 @@ public class Main extends Application {
         launch(args);
     }
 
-    public FXMLLoader switchToScene(ActionEvent event, String sceneName) throws IOException {
+    public void switchToScene(ActionEvent event, String sceneName) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        return loader;
     }
 }
