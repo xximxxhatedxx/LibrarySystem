@@ -1,11 +1,11 @@
 package com.librarysystem.librarysystem;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -15,6 +15,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class BookListController extends Main{
 
+    @FXML
+    private ToggleButton authorButton;
+    @FXML
+    private ToggleButton nameButton;
     @FXML
     private TextField searchTextField;
     @FXML
@@ -27,11 +31,15 @@ public class BookListController extends Main{
     private TextField pagesCount;
     @FXML
     private VBox List;
+    @FXML
+    private ToggleGroup Search;
+
 
     private int pages;
     private int current;
     private AtomicReference<ResultSet> resultSet;
     private boolean isMovingForward = true;
+    DatabaseHandler db;
 
     Pane create(String name_, String author_) {
         Pane pane = new Pane();
@@ -56,68 +64,45 @@ public class BookListController extends Main{
         return pane;
     }
 
+    void changeList(){
+        List.getChildren().clear();
+        current = 1;
+        currentPage.setText(Integer.toString(current));
+        isMovingForward = true;
+        try {
+            String searchText = searchTextField.getText();
+            if(searchText == null || searchText.isEmpty() || searchText.isBlank())
+                resultSet.set(db.getLastBooks());
+            else if (Search.getSelectedToggle() == nameButton)
+                resultSet.set(db.getBooksByName(searchTextField.getText()));
+            else
+                resultSet.set(db.getBooksByAuthor(searchTextField.getText()));
+            pages = (int)Math.ceil(db.getDbLength() / 10.0);
+            pagesCount.setText(Integer.toString(pages));
+
+            for (int i = 0; i < 10; i++) {
+                if (resultSet.get().next())
+                    List.getChildren().add(create(
+                            resultSet.get().getString("name"),
+                            resultSet.get().getString("author")
+                    ));
+                else break;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @FXML
     void initialize() throws SQLException {
         List.setSpacing(5);
-        DatabaseHandler db = new DatabaseHandler();
-        current = 1;
-        resultSet = new AtomicReference<>(db.getLastBooks());
-        int records = db.getDbLength();
-        pages = (int)Math.ceil(records / 10.0);
-        pagesCount.setText(Integer.toString(pages));
+        db = new DatabaseHandler();
+        resultSet = new AtomicReference<ResultSet>();
 
-        for (int i = 0; i < 10; i++) {
-            if (resultSet.get().next())
-                List.getChildren().add(create(
-                        resultSet.get().getString("name"),
-                        resultSet.get().getString("author")
-                ));
-            else break;
-        }
+        changeList();
 
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty() || newValue.isBlank()) {
-                try {
-                    List.getChildren().clear();
-                    resultSet.set(db.getLastBooks());
-                    current = 1;
-                    currentPage.setText(Integer.toString(current));
-                    pages = (int)Math.ceil(db.getDbLength() / 10.0);
-                    pagesCount.setText(Integer.toString(pages));
-                    isMovingForward = true;
-                    for (int i = 0; i < 10; i++) {
-                        if (resultSet.get().next())
-                            List.getChildren().add(create(
-                                    resultSet.get().getString("name"),
-                                    resultSet.get().getString("author")
-                            ));
-                        else break;
-                    }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                return;
-            }
-            List.getChildren().clear();
-            current = 1;
-            currentPage.setText(Integer.toString(current));
-            isMovingForward = true;
-            try {
-                resultSet.set(db.getBooksByAuthor(newValue));
-                pages = (int)Math.ceil(db.getDbLength() / 10.0);
-                pagesCount.setText(Integer.toString(pages));
-
-                for (int i = 0; i < 10; i++) {
-                    if (resultSet.get().next())
-                        List.getChildren().add(create(
-                                resultSet.get().getString("name"),
-                                resultSet.get().getString("author")
-                        ));
-                    else break;
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            changeList();
         });
 
         forwardButton.setOnAction(event -> {
@@ -178,6 +163,20 @@ public class BookListController extends Main{
             currentPage.setText(Integer.toString(--current));
         });
 
-        db.getBooksByAuthor("к");
+        nameButton.setOnAction(event -> nameButton.setDisable(true));
+        authorButton.setOnAction(event -> authorButton.setDisable(true));
+        Search.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle oldValue, Toggle newValue) {
+                if (newValue == nameButton){
+                    authorButton.setDisable(false);
+                    changeList();
+                }
+                else{
+                    nameButton.setDisable(false);
+                    changeList();
+                }
+            }
+        });
     }
 }

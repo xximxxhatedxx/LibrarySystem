@@ -80,6 +80,21 @@ public class DatabaseHandler extends Config {
         return preparedStatement.executeQuery();
     }
 
+    public ResultSet getBooksByName(String name) throws SQLException{
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE name LIKE ? UNION " +
+                "SELECT * FROM books WHERE name LIKE ?";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(
+                query,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY
+        );
+        preparedStatement.setString(1, name + "%");
+        preparedStatement.setString(2, "%" + name + "%");
+
+        return preparedStatement.executeQuery();
+    }
+
     public int getDbLength() throws SQLException {
         String query = "SELECT FOUND_ROWS() as length;";
         PreparedStatement st = getDbConnection().prepareStatement(query);
