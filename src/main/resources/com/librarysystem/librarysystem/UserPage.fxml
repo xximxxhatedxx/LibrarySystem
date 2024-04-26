@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.UserPageController">
    <children>
@@ -40,7 +41,26 @@
                   </Label>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <VBox fx:id="List" prefHeight="550.0" prefWidth="575.0" style="-fx-background-color: #eeeeee;">
+                     <children>
+
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding></VBox>
+                  <ToolBar layoutX="390.0" layoutY="507.0" prefHeight="40.0" prefWidth="160.0">
+                     <items>
+                        <Button fx:id="backButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
+                        <TextField fx:id="currentPage" alignment="CENTER" prefWidth="35.0" promptText="dsdsds" text="1" />
+                        <Label text="of" />
+                        <TextField fx:id="pagesCount" alignment="CENTER" editable="false" prefWidth="35.0" text="100" />
+                        <Button fx:id="forwardButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&gt;" />
+                     </items>
+                  </ToolBar>
+               </children>
+          </AnchorPane>
         </items>
       </SplitPane>
    </children>
