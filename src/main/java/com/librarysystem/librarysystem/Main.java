@@ -18,7 +18,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage _stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("BookListTest.fxml"));
         _stage.setTitle("main-page");
         _stage.setScene(new Scene(root));
         _stage.setResizable(false);

@@ -38,33 +38,6 @@ public class DatabaseHandler extends Config {
         System.out.println("Button clicked for element " + name + " " + author);
     }
 
-    public /*Book*/ResultSet getBookById(int id) throws SQLException{
-        String query = "SELECT * FROM books WHERE idbooks = ? LIMIT 1";
-
-//        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-//        preparedStatement.setInt(1, id);
-//        ResultSet resSet = preparedStatement.executeQuery();
-//        if (!resSet.next()) return null;
-//
-//        return new Book(
-//                id,
-//                resSet.getString("author"),
-//                resSet.getString("name"),
-//                resSet.getString("genre"),
-//                resSet.getInt("number")
-//        );
-
-        PreparedStatement preparedStatement = getDbConnection().prepareStatement(
-                query,
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY
-        );
-
-        preparedStatement.setInt(1, id);
-
-        return preparedStatement.executeQuery();
-    }
-
     public ResultSet getBooksByAuthor(String author) throws SQLException{
         String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE author LIKE ? UNION " +
                 "SELECT * FROM books WHERE author LIKE ?";

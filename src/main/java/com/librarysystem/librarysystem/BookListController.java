@@ -39,7 +39,7 @@ public class BookListController extends Main{
     private int current;
     private AtomicReference<ResultSet> resultSet;
     private boolean isMovingForward = true;
-    DatabaseHandler db;
+    DatabaseHandler db = new DatabaseHandler();
 
     Pane create(String name_, String author_) {
         Pane pane = new Pane();
@@ -74,9 +74,10 @@ public class BookListController extends Main{
             if(searchText == null || searchText.isEmpty() || searchText.isBlank())
                 resultSet.set(db.getLastBooks());
             else if (Search.getSelectedToggle() == nameButton)
-                resultSet.set(db.getBooksByName(searchTextField.getText()));
+                resultSet.set(db.getBooksByName(searchText));
             else
-                resultSet.set(db.getBooksByAuthor(searchTextField.getText()));
+                resultSet.set(db.getBooksByAuthor(searchText));
+
             pages = (int)Math.ceil(db.getDbLength() / 10.0);
             pagesCount.setText(Integer.toString(pages));
 
@@ -96,7 +97,6 @@ public class BookListController extends Main{
     @FXML
     void initialize() throws SQLException {
         List.setSpacing(5);
-        db = new DatabaseHandler();
         resultSet = new AtomicReference<ResultSet>();
 
         changeList();
@@ -165,6 +165,7 @@ public class BookListController extends Main{
 
         nameButton.setOnAction(event -> nameButton.setDisable(true));
         authorButton.setOnAction(event -> authorButton.setDisable(true));
+
         Search.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observableValue, Toggle oldValue, Toggle newValue) {
