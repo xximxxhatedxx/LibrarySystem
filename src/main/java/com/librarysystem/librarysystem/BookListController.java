@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class BookListController extends Main{
@@ -33,6 +35,10 @@ public class BookListController extends Main{
     private VBox List;
     @FXML
     private ToggleGroup Search;
+    @FXML
+    private VBox GenreList;
+    @FXML
+    private Button searchButton;
 
 
     private int pages;
@@ -63,6 +69,13 @@ public class BookListController extends Main{
         pane.getChildren().addAll(name, author, button);
         return pane;
     }
+    VBox createFilters(String name_){
+        GenreList.setPadding(new Insets(10,10,10,10));
+        GenreList.setStyle("-fx-background-color: #d9d9d9;");
+        CheckBox checkBox = new CheckBox(name_);
+        GenreList.getChildren().addAll(checkBox);
+        return GenreList;
+    }
 
     void changeList(){
         List.getChildren().clear();
@@ -92,6 +105,20 @@ public class BookListController extends Main{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    private CheckBox[] getSelectedCheckBoxes() throws SQLException {
+        List<CheckBox> selectedCheckBoxes = new ArrayList<>();
+
+        for (javafx.scene.Node node : GenreList.getChildren()) {
+            if (node instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) node;
+                if (checkBox.isSelected()) {
+                    System.out.println("Hui");
+                    selectedCheckBoxes.add(checkBox);
+                }
+            }
+        }
+        return selectedCheckBoxes.toArray(new CheckBox[0]);
     }
 
     @FXML
@@ -179,5 +206,17 @@ public class BookListController extends Main{
                 }
             }
         });
+
+        try{
+            DatabaseHandler db = new DatabaseHandler();
+            Genre[] genres = db.getGenres();
+            for(Genre genre: genres){
+                createFilters(genre.name);
+                System.out.println();
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 }
