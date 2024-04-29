@@ -3,6 +3,7 @@ package com.librarysystem.librarysystem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -77,6 +78,7 @@ public class BookListController extends Main{
         isMovingForward = true;
         try {
             String searchText = searchTextField.getText();
+            ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
             if(searchText == null || searchText.isEmpty() || searchText.isBlank())
                 resultSet.set(db.getLastBooks());
             else if (Search.getSelectedToggle() == nameButton)
