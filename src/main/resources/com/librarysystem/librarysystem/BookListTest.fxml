@@ -21,7 +21,7 @@
                 <Button fx:id="forwardButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&gt;" />
             </items>
         </ToolBar>
-        <TextField fx:id="searchTextField" layoutX="221.0" layoutY="25.0" prefHeight="25.0" prefWidth="750.0" promptText="New books in our library" />
+        <TextField fx:id="searchTextField" layoutX="221.0" layoutY="25.0" prefHeight="25.0" prefWidth="715.0" promptText="New books in our library" />
 
         <fx:define>
             <ToggleGroup fx:id="Search" />
@@ -34,5 +34,6 @@
         <CheckListView fx:id="GenreList" layoutX="-27.0" layoutY="122.0" maxWidth="200.0" AnchorPane.leftAnchor="10.0">
 
         </CheckListView>
+      <Button fx:id="searchButton" layoutX="936.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="🔎" />
     </children>
 </AnchorPane>
