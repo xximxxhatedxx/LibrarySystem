@@ -91,7 +91,7 @@ public class UserPageController extends Main {
         List.setSpacing(5);
         DatabaseHandler db = new DatabaseHandler();
         current = 1;
-        resultSet = new AtomicReference<>(db.getBokByUser(currentUser));
+        resultSet = new AtomicReference<>(db.getBookByUser(currentUser));
         int records = db.getDbLength();
         pages = (int) Math.ceil(records / 10.0);
         pagesCount.setText(Integer.toString(pages));

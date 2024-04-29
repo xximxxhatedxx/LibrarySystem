@@ -44,13 +44,7 @@
          <Font size="14.0" />
       </font></Label>
 
-    <CheckComboBox fx:id="genreCheckBox" prefWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-        <String fx:value="Horror" />
-        <String fx:value="Fantasy" />
-        <String fx:value="Thriller" />
-        <String fx:value="Romance" />
-        <String fx:value="Adventure" />
-    </CheckComboBox>
+    <CheckComboBox fx:id="genreCheckBox" prefWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     <Button fx:id="confirmButton" alignment="CENTER" prefHeight="40.0" prefWidth="149.0" styleClass="activeButton" stylesheets="@style.css" text="Confirm" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
       <font>
          <Font size="23.0" />

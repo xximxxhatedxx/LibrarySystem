@@ -15,17 +15,21 @@ public class DatabaseHandler extends Config {
         return dbConnection = DriverManager.getConnection(connectionString, dbUser, dbPass);
     }
 
-    public void createBook(String author, String name, String genre, int number)
+    public int createBook(String author, String name, int number)
             throws SQLException {
-        String query = "INSERT INTO books (author, name, genre, number) VALUES (?,?,?,?)";
+        String query = "INSERT INTO books (author, name, number) VALUES (?,?,?);";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
         preparedStatement.setString(1, author);
         preparedStatement.setString(2, name);
-        preparedStatement.setString(3, genre);
-        preparedStatement.setInt(4, number);
+        preparedStatement.setInt(3, number);
 
         preparedStatement.executeUpdate();
+
+        Statement st = getDbConnection().createStatement();
+        ResultSet resSet = st.executeQuery("SELECT LAST_INSERT_ID() as ind;");
+        if (resSet.next()) return resSet.getInt("ind");
+        return 0;
     }
     public void deleteBook(String author, String name) throws SQLException {
 //        String query = "DELETE FROM books WHERE author = ? AND name = ?";
@@ -39,38 +43,36 @@ public class DatabaseHandler extends Config {
     }
 
     public ResultSet getBooksByAuthor(String author) throws SQLException{
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE author LIKE ? UNION " +
-                "SELECT * FROM books WHERE author LIKE ?";
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE author LIKE ? ORDER BY CASE WHEN author LIKE ? THEN 0 ELSE 1 END";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
         );
-        preparedStatement.setString(1, author + "%");
-        preparedStatement.setString(2, "%" + author + "%");
+        preparedStatement.setString(1, "%" + author + "%");
+        preparedStatement.setString(2, author + "%");
 
         return preparedStatement.executeQuery();
     }
 
     public ResultSet getBooksByName(String name) throws SQLException{
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE name LIKE ? UNION " +
-                "SELECT * FROM books WHERE name LIKE ?";
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE name LIKE ? ORDER BY CASE WHEN name LIKE ? THEN 0 ELSE 1 END";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
         );
-        preparedStatement.setString(1, name + "%");
-        preparedStatement.setString(2, "%" + name + "%");
+        preparedStatement.setString(1, "%" + name + "%");
+        preparedStatement.setString(2, name + "%");
 
         return preparedStatement.executeQuery();
     }
 
     public int getDbLength() throws SQLException {
         String query = "SELECT FOUND_ROWS() as length;";
-        PreparedStatement st = getDbConnection().prepareStatement(query);
+        Statement st = getDbConnection().createStatement();
         ResultSet rs = st.executeQuery(query);
         if (rs.next())
             return rs.getInt("length");
@@ -155,8 +157,8 @@ public class DatabaseHandler extends Config {
         }
         return null;
     }
-    public ResultSet getBokByUser (User user) throws SQLException{
-        String query = "SELECT books.* FROM used_books INNER JOIN books ON used_books.idbooks = books.idbooks WHERE used_books.idusers = ?;";
+    public ResultSet getBookByUser(User user) throws SQLException{
+        String query = "SELECT books.* FROM users_to_books INNER JOIN books ON users_to_books.idbooks = books.idbooks WHERE users_to_books.idusers = ?";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
@@ -168,4 +170,29 @@ public class DatabaseHandler extends Config {
         return preparedStatement.executeQuery();
     }
 
+    public Genre[] getGenres() throws SQLException {
+        String query = "SELECT * FROM genres";
+
+        Statement statement = getDbConnection().createStatement();
+
+        ResultSet resSet = statement.executeQuery(query);
+        List<Genre> genres = new ArrayList<Genre>();
+        while(resSet.next()){
+            genres.add(new Genre(
+                    resSet.getInt("idgenre"),
+                    resSet.getString("name")
+            ));
+        }
+        return genres.toArray(new Genre[0]);
+    }
+
+    public void addBooksToGenre(int idbook, int idgenre) throws SQLException {
+        String query = "INSERT INTO books_to_genres (idbook, idgenre) VALUES (?,?)";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setInt(1, idbook);
+        preparedStatement.setInt(2, idgenre);
+
+        preparedStatement.executeUpdate();
+    }
 }

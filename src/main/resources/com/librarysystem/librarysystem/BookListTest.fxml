@@ -30,5 +30,6 @@
             <ToggleGroup fx:id="Search" />
          </toggleGroup></ToggleButton>
         <ToggleButton fx:id="nameButton" layoutX="51.0" layoutY="52.0" prefHeight="25.0" prefWidth="60.0" selected="true" text="name" toggleGroup="$Search" />
+      <VBox layoutX="51.0" layoutY="130.0" prefHeight="420.0" prefWidth="120.0" style="-fx-background-color: #ebebeb;" />
     </children>
 </AnchorPane>
