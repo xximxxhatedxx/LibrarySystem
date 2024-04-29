@@ -3,7 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.BookListController">
     <children>
@@ -31,13 +31,8 @@
             <ToggleGroup fx:id="Search" />
          </toggleGroup></ToggleButton>
         <ToggleButton fx:id="nameButton" layoutX="51.0" layoutY="52.0" prefHeight="25.0" prefWidth="60.0" selected="true" text="name" toggleGroup="$Search" />
-      <VBox fx:id="GenreList" alignment="TOP_LEFT" layoutX="51.0" layoutY="130.0" prefHeight="420.0" prefWidth="120.0" style="-fx-background-color: #ebebeb;">
-         <children>
-            <Label prefHeight="27.0" prefWidth="74.0" text="Genre" textAlignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children></VBox>
+        <CheckListView fx:id="GenreList" layoutX="-27.0" layoutY="122.0" maxWidth="200.0" AnchorPane.leftAnchor="10.0">
+
+        </CheckListView>
     </children>
 </AnchorPane>

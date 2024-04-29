@@ -2,12 +2,14 @@ package com.librarysystem.librarysystem;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.controlsfx.control.CheckListView;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,9 +38,7 @@ public class BookListController extends Main{
     @FXML
     private ToggleGroup Search;
     @FXML
-    private VBox GenreList;
-    @FXML
-    private Button searchButton;
+    private CheckListView GenreList;
 
 
     private int pages;
@@ -69,13 +69,6 @@ public class BookListController extends Main{
         pane.getChildren().addAll(name, author, button);
         return pane;
     }
-    VBox createFilters(String name_){
-        GenreList.setPadding(new Insets(10,10,10,10));
-        GenreList.setStyle("-fx-background-color: #d9d9d9;");
-        CheckBox checkBox = new CheckBox(name_);
-        GenreList.getChildren().addAll(checkBox);
-        return GenreList;
-    }
 
     void changeList(){
         List.getChildren().clear();
@@ -105,20 +98,6 @@ public class BookListController extends Main{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-    private CheckBox[] getSelectedCheckBoxes() throws SQLException {
-        List<CheckBox> selectedCheckBoxes = new ArrayList<>();
-
-        for (javafx.scene.Node node : GenreList.getChildren()) {
-            if (node instanceof CheckBox) {
-                CheckBox checkBox = (CheckBox) node;
-                if (checkBox.isSelected()) {
-                    System.out.println("Hui");
-                    selectedCheckBoxes.add(checkBox);
-                }
-            }
-        }
-        return selectedCheckBoxes.toArray(new CheckBox[0]);
     }
 
     @FXML
@@ -211,8 +190,7 @@ public class BookListController extends Main{
             DatabaseHandler db = new DatabaseHandler();
             Genre[] genres = db.getGenres();
             for(Genre genre: genres){
-                createFilters(genre.name);
-                System.out.println();
+                GenreList.getItems().add(genre);
             }
         } catch (SQLException e){
             e.printStackTrace();
