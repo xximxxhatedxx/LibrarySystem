@@ -43,7 +43,6 @@ public class BookListController extends Main{
     @FXML
     private CheckListView GenreList;
 
-
     private int pages;
     private int current;
     private AtomicReference<ResultSet> resultSet;
@@ -82,11 +81,11 @@ public class BookListController extends Main{
             String searchText = searchTextField.getText();
             ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
             if(searchText == null || searchText.isEmpty() || searchText.isBlank())
-                resultSet.set(db.getLastBooks());
+                resultSet.set(db.getLastBooks(genres));
             else if (Search.getSelectedToggle() == nameButton)
-                resultSet.set(db.getBooksByName(searchText));
-            else
-                resultSet.set(db.getBooksByAuthor(searchText));
+                resultSet.set(db.getBooksByName(searchText, genres));
+            else if (Search.getSelectedToggle() == authorButton)
+                resultSet.set(db.getBooksByAuthor(searchText, genres));
 
             pages = (int)Math.ceil(db.getDbLength() / 10.0);
             pagesCount.setText(Integer.toString(pages));

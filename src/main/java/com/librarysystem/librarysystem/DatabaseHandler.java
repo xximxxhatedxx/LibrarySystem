@@ -1,5 +1,7 @@
 package com.librarysystem.librarysystem;
 
+import javafx.collections.ObservableList;
+
 import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.*;
@@ -42,8 +44,18 @@ public class DatabaseHandler extends Config {
         System.out.println("Button clicked for element " + name + " " + author);
     }
 
-    public ResultSet getBooksByAuthor(String author) throws SQLException{
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE author LIKE ? ORDER BY CASE WHEN author LIKE ? THEN 0 ELSE 1 END";
+    public ResultSet getBooksByAuthor(String author, ObservableList<Genre> genres) throws SQLException{
+        StringBuilder inCondition = new StringBuilder();
+        for (int i = 0; i < genres.size(); i++) {
+            inCondition.append("?");
+            if (i < genres.size() - 1) {
+                inCondition.append(", ");
+            }
+        }
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books "+
+                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook "+
+                "WHERE author LIKE ? AND idgenre IN ("+inCondition.toString()+") "+
+                "ORDER BY CASE WHEN author LIKE ? THEN 0 ELSE 1 END";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
@@ -51,13 +63,28 @@ public class DatabaseHandler extends Config {
                 ResultSet.CONCUR_READ_ONLY
         );
         preparedStatement.setString(1, "%" + author + "%");
-        preparedStatement.setString(2, author + "%");
+        int parameterIndex = 2;
+        for(Genre genre: genres){
+            preparedStatement.setInt(parameterIndex++, genre.id);
+        }
+        preparedStatement.setString(parameterIndex, author + "%");
+
 
         return preparedStatement.executeQuery();
     }
 
-    public ResultSet getBooksByName(String name) throws SQLException{
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books WHERE name LIKE ? ORDER BY CASE WHEN name LIKE ? THEN 0 ELSE 1 END";
+    public ResultSet getBooksByName(String name, ObservableList<Genre> genres) throws SQLException{
+        StringBuilder inCondition = new StringBuilder();
+        for (int i = 0; i < genres.size(); i++) {
+            inCondition.append("?");
+            if (i < genres.size() - 1) {
+                inCondition.append(", ");
+            }
+        }
+        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books "+
+                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook "+
+                "WHERE name LIKE ? AND idgenre IN ("+inCondition.toString()+") " +
+                "ORDER BY CASE WHEN name LIKE ? THEN 0 ELSE 1 END";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
@@ -65,7 +92,11 @@ public class DatabaseHandler extends Config {
                 ResultSet.CONCUR_READ_ONLY
         );
         preparedStatement.setString(1, "%" + name + "%");
-        preparedStatement.setString(2, name + "%");
+        int parameterIndex = 2;
+        for(Genre genre: genres){
+            preparedStatement.setInt(parameterIndex++, genre.id);
+        }
+        preparedStatement.setString(2, parameterIndex + "%");
 
         return preparedStatement.executeQuery();
     }
@@ -79,13 +110,35 @@ public class DatabaseHandler extends Config {
         return 0;
     }
 
-    public ResultSet getLastBooks() throws SQLException{
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books ORDER BY idbooks DESC";
+    public ResultSet getLastBooks(ObservableList<Genre> genres) throws SQLException{
+        StringBuilder inCondition = new StringBuilder();
+        if(!genres.isEmpty()) {
+            inCondition.append("WHERE idgenre IN (");
+            for (int i = 0; i < genres.size(); i++) {
+                inCondition.append("?");
+                if (i < genres.size() - 1) {
+                    inCondition.append(", ");
+                }
+            }
+            inCondition.append(")");
+        }
+        String query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT * FROM books "+
+                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook "+
+                inCondition.toString() +
+                "GROUP BY idbooks ORDER BY idbooks DESC ";
+        System.out.println(query);
 
-        Statement statement = getDbConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(
+                query,
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY
+        );
+        int parameterIndex = 1;
+        for(Genre genre: genres){
+            preparedStatement.setInt(parameterIndex++, genre.id);
+        }
 
-        return statement.executeQuery(query);
+        return preparedStatement.executeQuery();
     }
 
     public void addUser(String name, String surname, String email, String password)
