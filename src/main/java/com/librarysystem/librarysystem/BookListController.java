@@ -28,6 +28,8 @@ public class BookListController extends Main{
     @FXML
     private TextField currentPage;
     @FXML
+    private Button searchButton;
+    @FXML
     private Button forwardButton;
     @FXML
     private Button backButton;
@@ -101,13 +103,13 @@ public class BookListController extends Main{
     }
 
     @FXML
-    void initialize() throws SQLException {
+    void initialize(){
         List.setSpacing(5);
         resultSet = new AtomicReference<ResultSet>();
 
         changeList();
 
-        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+        searchButton.setOnAction(event -> {
             changeList();
         });
 
@@ -177,11 +179,9 @@ public class BookListController extends Main{
             public void changed(ObservableValue<? extends Toggle> observableValue, Toggle oldValue, Toggle newValue) {
                 if (newValue == nameButton){
                     authorButton.setDisable(false);
-                    changeList();
                 }
                 else{
                     nameButton.setDisable(false);
-                    changeList();
                 }
             }
         });
