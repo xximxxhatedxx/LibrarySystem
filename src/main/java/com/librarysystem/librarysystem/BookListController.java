@@ -171,7 +171,7 @@ public class BookListController extends Main{
 
             currentPage.setText(Integer.toString(--current));
         });
-
+        nameButton.setDisable(true);
         nameButton.setOnAction(event -> nameButton.setDisable(true));
         authorButton.setOnAction(event -> authorButton.setDisable(true));
 

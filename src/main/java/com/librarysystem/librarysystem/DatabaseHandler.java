@@ -49,15 +49,16 @@ public class DatabaseHandler extends Config {
     public ResultSet getBooksByAuthor(String author, ObservableList<Genre> genres) throws SQLException{
         String condition =
                 genres.isEmpty() ? "" :
-                "AND idgenre IN (" +
+                "AND btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books "+
-                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook "+
-                "WHERE author LIKE ? " + condition +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, group_concat(gen.name SEPARATOR \", \") as genres FROM books " +
+                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
+                "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
+                "WHERE books.author LIKE ? " + condition +
                 "GROUP BY books.idbooks " +
-                "ORDER BY CASE WHEN author LIKE ? THEN 0 ELSE 1 END";
+                "ORDER BY CASE WHEN books.author LIKE ? THEN 0 ELSE 1 END";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
@@ -78,15 +79,16 @@ public class DatabaseHandler extends Config {
     public ResultSet getBooksByName(String name, ObservableList<Genre> genres) throws SQLException{
         String condition =
                 genres.isEmpty() ? "" :
-                "AND idgenre IN (" +
+                "AND btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS * FROM books "+
-                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook "+
-                "WHERE name LIKE ? " + condition +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, group_concat(gen.name SEPARATOR \", \") as genres FROM books " +
+                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
+                "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
+                "WHERE books.name LIKE ? " + condition +
                 "GROUP BY books.idbooks " +
-                "ORDER BY CASE WHEN name LIKE ? THEN 0 ELSE 1 END";
+                "ORDER BY CASE WHEN books.name LIKE ? THEN 0 ELSE 1 END";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
@@ -120,9 +122,10 @@ public class DatabaseHandler extends Config {
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT * FROM books " +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, group_concat(gen.name SEPARATOR \", \") as genres FROM books " +
                 "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
-                condition + "GROUP BY idbooks ORDER BY idbooks DESC ";
+                "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
+                condition + "GROUP BY books.idbooks ORDER BY books.idbooks DESC";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
