@@ -4,6 +4,6 @@ public class Config {
     protected String dbHost = "localhost";
     protected String dbPort = "3306";
     protected String dbUser = "root";
-    protected String dbPass = "35455576Nm7";
+    protected String dbPass = "21032005";
     protected String dbName= "LibrarySystem";
 }
