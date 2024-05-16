@@ -47,7 +47,11 @@ public class LogInController extends Main{
                     showError("Account login error. Incorrect password");
                 else{
                     CurrentSession.getInstance().setCurrentUser(user);
-                    switchToScene(event, "UserPage.fxml");
+                    if(user.getIsAdmin()){
+                        switchToScene(event, "ManageBook.fxml");
+                    }else{
+                        switchToScene(event, "UserPage.fxml");
+                    }
                 }
             }catch (Exception e){
                 System.out.println(e);

@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.CheckListView;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,6 +43,10 @@ public class BookListController extends Main{
     private ToggleGroup Search;
     @FXML
     private CheckListView GenreList;
+    @FXML
+    private Button logOut;
+    @FXML
+    private Button myPage;
 
     private int pages;
     private int current;
@@ -112,6 +117,20 @@ public class BookListController extends Main{
 
         searchButton.setOnAction(event -> {
             changeList();
+        });
+        logOut.setOnAction(event->{
+            try{
+                switchToScene(event, "LogIn.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        myPage.setOnAction(event->{
+            try{
+                switchToScene(event, "UserPage.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         forwardButton.setOnAction(event -> {

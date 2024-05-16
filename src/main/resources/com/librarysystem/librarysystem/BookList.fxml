@@ -35,5 +35,7 @@
 
         </CheckListView>
       <Button fx:id="searchButton" layoutX="936.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="🔎" />
+      <Button fx:id="logOut" layoutX="29.0" layoutY="538.0" mnemonicParsing="false" text="log out" />
+      <Button fx:id="myPage" layoutX="119.0" layoutY="538.0" mnemonicParsing="false" text="My page" />
     </children>
 </AnchorPane>

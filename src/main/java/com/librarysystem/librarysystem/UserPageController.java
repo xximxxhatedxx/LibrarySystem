@@ -21,8 +21,7 @@ public class UserPageController extends Main {
     private Label surnameLabel;
     @FXML
     private Label emailLabel;
-    @FXML
-    private Label idLabel;
+
     @FXML
     private Button backToBookListButton;
     @FXML
@@ -83,6 +82,13 @@ public class UserPageController extends Main {
             try {
                 CurrentSession.getInstance().deleteSession();
                 switchToScene(event, "MainPage.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        backToBookListButton.setOnAction(event->{
+            try{
+                switchToScene(event, "BookList.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -35,15 +35,36 @@ public class DatabaseHandler extends Config {
         if (resSet.next()) return resSet.getInt("ind");
         return 0;
     }
-    public void deleteBook(String author, String name) throws SQLException {
-//        String query = "DELETE FROM books WHERE author = ? AND name = ?";
-//
-//        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-//        preparedStatement.setString(1, author);
-//        preparedStatement.setString(2, name);
-//
-//        preparedStatement.executeUpdate();
-        System.out.println("Button clicked for element " + name + " " + author);
+    public boolean statusBook(String author, String name) throws SQLException {
+        String query = "SELECT active FROM books WHERE author = ? AND name = ?";
+        try (PreparedStatement preparedStatement = getDbConnection().prepareStatement(query)) {
+            preparedStatement.setString(1, author);
+            preparedStatement.setString(2, name);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int activeStatus = resultSet.getInt("active");
+                    return activeStatus == 1;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+    public void inactiveBook(String author, String name) throws SQLException {
+        String query = "UPDATE books SET active = 0 WHERE author = ? AND name = ?";
+        try (PreparedStatement preparedStatement = getDbConnection().prepareStatement(query)) {
+            preparedStatement.setString(1, author);
+            preparedStatement.setString(2, name);
+            preparedStatement.executeUpdate();
+        }
+    }
+    public void activateBook(String author, String name) throws SQLException {
+        String query = "UPDATE books SET active = 1 WHERE author = ? AND name = ?";
+        try (PreparedStatement preparedStatement = getDbConnection().prepareStatement(query)) {
+            preparedStatement.setString(1, author);
+            preparedStatement.setString(2, name);
+            preparedStatement.executeUpdate();
+        }
     }
 
     public ResultSet getBooksByAuthor(String author, ObservableList<Genre> genres) throws SQLException{
@@ -153,42 +174,42 @@ public class DatabaseHandler extends Config {
         preparedStatement.executeUpdate();
 
     }
-    public User getUserById(int id) throws SQLException{
-        String query = "SELECT * FROM users WHERE idusers = ? LIMIT 1";
-
-        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setInt(1, id);
-        ResultSet resSet = preparedStatement.executeQuery();
-        if (!resSet.next()) return null;
-
-        return new User(
-                id,
-                resSet.getString("name"),
-                resSet.getString("surname"),
-                resSet.getString("email"),
-                resSet.getString("password")
-        );
-    }
-    public User[] getUserBySurname(String surname) throws SQLException{
-        String query = "SELECT * FROM users WHERE surname LIKE ?";
-
-        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setString(1, surname.trim());
-        ResultSet resSet = preparedStatement.executeQuery();
-
-        List<User> users = new ArrayList<User>();
-        while (resSet.next()){
-            users.add(new User(
-                    resSet.getInt("idusers"),
-                    resSet.getString("name"),
-                    resSet.getString("surname"),
-                    resSet.getString("email"),
-                    resSet.getString("password")
-            ));
-        }
-
-        return users.toArray(new User[0]);
-    }
+//    public User getUserById(int id) throws SQLException{
+//        String query = "SELECT * FROM users WHERE idusers = ? LIMIT 1";
+//
+//        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+//        preparedStatement.setInt(1, id);
+//        ResultSet resSet = preparedStatement.executeQuery();
+//        if (!resSet.next()) return null;
+//
+//        return new User(
+//                id,
+//                resSet.getString("name"),
+//                resSet.getString("surname"),
+//                resSet.getString("email"),
+//                resSet.getString("password")
+//        );
+//    }
+//    public User[] getUserBySurname(String surname) throws SQLException{
+//        String query = "SELECT * FROM users WHERE surname LIKE ?";
+//
+//        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+//        preparedStatement.setString(1, surname.trim());
+//        ResultSet resSet = preparedStatement.executeQuery();
+//
+//        List<User> users = new ArrayList<User>();
+//        while (resSet.next()){
+//            users.add(new User(
+//                    resSet.getInt("idusers"),
+//                    resSet.getString("name"),
+//                    resSet.getString("surname"),
+//                    resSet.getString("email"),
+//                    resSet.getString("password")
+//            ));
+//        }
+//
+//        return users.toArray(new User[0]);
+//    }
     public User getUserByEmail(String email, String password) throws SQLException{
         String query = "SELECT * FROM users WHERE email LIKE ? LIMIT 1";
 
@@ -203,7 +224,8 @@ public class DatabaseHandler extends Config {
                         resSet.getString("name"),
                         resSet.getString("surname"),
                         resSet.getString("email"),
-                        resSet.getString("password")
+                        resSet.getString("password"),
+                        resSet.getBoolean("isAdmin")
                 );
 
         }

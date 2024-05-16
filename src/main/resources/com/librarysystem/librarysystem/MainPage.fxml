@@ -11,7 +11,7 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Button fx:id="logInUser" layoutX="107.0" layoutY="206.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="154.0" styleClass="mainButton" stylesheets="@style.css" text="Log in as admin" />
-      <Button fx:id="logInAdmin" layoutX="338.0" layoutY="206.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="161.0" styleClass="mainButton" stylesheets="@style.css" text="log in as user" />
+      <Button fx:id="logInUser" layoutX="107.0" layoutY="206.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="154.0" styleClass="mainButton" stylesheets="@style.css" text="Log in " />
+      <Button fx:id="logInAdmin" layoutX="338.0" layoutY="206.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="161.0" styleClass="mainButton" stylesheets="@style.css" text="Ragistration" />
    </children>
 </AnchorPane>

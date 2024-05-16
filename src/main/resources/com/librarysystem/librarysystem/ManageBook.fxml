@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.*?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.ManageBookController">
     <children>
@@ -24,7 +25,19 @@
             </items>
         </ToolBar>
         <TextField fx:id="searchTextField" layoutX="221.0" layoutY="25.0" prefHeight="25.0" prefWidth="750.0" />
-      <Button fx:id="addBookButton" layoutX="122.0" layoutY="25.0" mnemonicParsing="false" text="Add book" />
-      <Button fx:id="goBackButton" layoutX="46.0" layoutY="25.0" mnemonicParsing="false" text="BACK" />
+      <Button fx:id="addBookButton" layoutX="119.0" layoutY="545.0" mnemonicParsing="false" text="Add book" />
+      <Button fx:id="goBackButton" layoutX="35.0" layoutY="545.0" mnemonicParsing="false" text="BACK" />
+        <fx:define>
+            <ToggleGroup fx:id="Search" />
+        </fx:define>
+        <ToggleButton fx:id="authorButton" layoutX="111.0" layoutY="52.0" prefHeight="25.0" prefWidth="60.0" text="author">
+            <toggleGroup>
+                <ToggleGroup fx:id="Search" />
+            </toggleGroup></ToggleButton>
+        <ToggleButton fx:id="nameButton" layoutX="51.0" layoutY="52.0" prefHeight="25.0" prefWidth="60.0" selected="true" text="name" toggleGroup="$Search" />
+        <CheckListView fx:id="GenreList" layoutX="-27.0" layoutY="122.0" maxWidth="200.0" AnchorPane.leftAnchor="10.0">
+
+        </CheckListView>
+        <Button fx:id="searchButton" layoutX="936.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="🔎" />
     </children>
 </AnchorPane>

@@ -28,7 +28,7 @@ public class MainPageController extends Main{
         });
         logInAdmin.setOnAction(event -> {
             try {
-                switchToScene(event, "LogIn.fxml");
+                switchToScene(event, "Registration.fxml");
             } catch (IOException e) {
                 System.out.println(e);
             }

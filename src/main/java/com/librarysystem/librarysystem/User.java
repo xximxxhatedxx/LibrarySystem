@@ -6,6 +6,7 @@ public class User {
         public String surname;
         public String email;
         public String password;
+        public boolean isAdmin;
 
         public String getName(){
             return name;
@@ -19,6 +20,7 @@ public class User {
         public int getId(){
             return id;
         }
+        public boolean getIsAdmin(){return isAdmin;}
 
         public User(String name, String surname, String email, String password){
             this.name = name;
@@ -32,12 +34,13 @@ public class User {
             this.email = email;
             this.id = id;
         }
-        public User(int id, String name, String surname, String email, String password){
+        public User(int id, String name, String surname, String email, String password, boolean isAdmin){
             this.id = id;
             this.name = name;
             this.surname = surname;
             this.email = email;
             this.password = password;
+            this.isAdmin = isAdmin;
         }
 
         @Override
