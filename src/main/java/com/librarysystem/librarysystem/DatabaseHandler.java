@@ -118,7 +118,7 @@ public class DatabaseHandler extends Config {
     public ResultSet getLastBooks(ObservableList<Genre> genres) throws SQLException{
         String condition =
                 genres.isEmpty() ? "" :
-                "WHERE idgenre IN (" +
+                "WHERE btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
