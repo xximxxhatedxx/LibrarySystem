@@ -108,11 +108,11 @@ public class ManageBookController extends Main{
         current = 1;
         currentPage.setText(Integer.toString(current));
         isMovingForward = true;
-        try {
+        /*try {
             String searchText = searchTextField.getText();
             ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
             if(searchText == null || searchText.isEmpty() || searchText.isBlank())
-                resultSet.set(db.getLastBooks(genres));
+                resultSet.set(db.getLastBooks(genres, session.getCurrentUser().id));
             else if (Search.getSelectedToggle() == nameButton)
                 resultSet.set(db.getBooksByName(searchText, genres));
             else if (Search.getSelectedToggle() == authorButton)
@@ -131,7 +131,7 @@ public class ManageBookController extends Main{
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
     @FXML

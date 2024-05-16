@@ -1,6 +1,5 @@
 package com.librarysystem.librarysystem;
 
-
 public class CurrentSession {
     private static CurrentSession instance;
     private User currentUser;

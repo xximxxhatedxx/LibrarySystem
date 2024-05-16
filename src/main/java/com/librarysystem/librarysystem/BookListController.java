@@ -53,8 +53,9 @@ public class BookListController extends Main{
     private AtomicReference<ResultSet> resultSet;
     private boolean isMovingForward = true;
     DatabaseHandler db = new DatabaseHandler();
+    CurrentSession session = CurrentSession.getInstance();
 
-    Pane create(String name_, String author_) {
+    Pane create(Integer id_, String name_, String author_, String genres_, Integer number_, Boolean status_) throws SQLException {
         Pane pane = new Pane();
         pane.setPrefSize(750, 45);
         pane.setPadding(new Insets(10,10,10,10));
@@ -70,6 +71,15 @@ public class BookListController extends Main{
         author.setLayoutY(10.0);
         author.setPrefSize(300,25);
         Button button = new Button("TAKE");
+        button.setOnAction(event -> {
+            try {
+                db.manageBook(id_ ,session.getCurrentUser().id, true);
+                button.setDisable(true);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        if (number_ == 0 || status_) button.setDisable(true);
         button.setLayoutX(655.0);
         button.setLayoutY(10.0);
         button.setPrefSize(70,25);
@@ -86,11 +96,11 @@ public class BookListController extends Main{
             String searchText = searchTextField.getText();
             ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
             if(searchText == null || searchText.isEmpty() || searchText.isBlank())
-                resultSet.set(db.getLastBooks(genres));
+                resultSet.set(db.getLastBooks(genres, session.getCurrentUser().id));
             else if (Search.getSelectedToggle() == nameButton)
-                resultSet.set(db.getBooksByName(searchText, genres));
+                resultSet.set(db.getBooksByName(searchText, genres, session.getCurrentUser().id));
             else if (Search.getSelectedToggle() == authorButton)
-                resultSet.set(db.getBooksByAuthor(searchText, genres));
+                resultSet.set(db.getBooksByAuthor(searchText, genres, session.getCurrentUser().id));
 
             pages = (int)Math.ceil(db.getDbLength() / 10.0);
             pagesCount.setText(Integer.toString(pages));
@@ -98,8 +108,12 @@ public class BookListController extends Main{
             for (int i = 0; i < 10; i++) {
                 if (resultSet.get().next())
                     List.getChildren().add(create(
+                            resultSet.get().getInt("idbooks"),
                             resultSet.get().getString("name"),
-                            resultSet.get().getString("author")
+                            resultSet.get().getString("author"),
+                            resultSet.get().getString("genres"),
+                            resultSet.get().getInt("number"),
+                            resultSet.get().getBoolean("status")
                     ));
                 else break;
             }
@@ -148,8 +162,12 @@ public class BookListController extends Main{
                 for (int i = 0; i < 10; i++) {
                     if (resultSet.get().next()) {
                         List.getChildren().add(create(
+                                resultSet.get().getInt("idbooks"),
                                 resultSet.get().getString("name"),
-                                resultSet.get().getString("author")
+                                resultSet.get().getString("author"),
+                                resultSet.get().getString("genres"),
+                                resultSet.get().getInt("number"),
+                                resultSet.get().getBoolean("status")
                         ));
                     }
                     else break;
@@ -178,8 +196,12 @@ public class BookListController extends Main{
                 for (int i = 0; i < 10; i++) {
                     if (resultSet.get().previous()) {
                         List.getChildren().add(0, create(
+                                resultSet.get().getInt("idbooks"),
                                 resultSet.get().getString("name"),
-                                resultSet.get().getString("author")
+                                resultSet.get().getString("author"),
+                                resultSet.get().getString("genres"),
+                                resultSet.get().getInt("number"),
+                                resultSet.get().getBoolean("status")
                         ));
                     }
                     else break;

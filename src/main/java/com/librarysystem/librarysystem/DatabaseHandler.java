@@ -67,16 +67,17 @@ public class DatabaseHandler extends Config {
         }
     }
 
-    public ResultSet getBooksByAuthor(String author, ObservableList<Genre> genres) throws SQLException{
+    public ResultSet getBooksByAuthor(String author, ObservableList<Genre> genres, Integer userid) throws SQLException{
         String condition =
                 genres.isEmpty() ? "" :
                 "AND btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, group_concat(gen.name SEPARATOR \", \") as genres FROM books " +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
                 "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
                 "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
+                "LEFT JOIN users_to_books AS utb ON utb.idbook = books.idbooks AND utb.iduser = ? " +
                 "WHERE books.author LIKE ? " + condition +
                 "GROUP BY books.idbooks " +
                 "ORDER BY CASE WHEN books.author LIKE ? THEN 0 ELSE 1 END";
@@ -86,9 +87,10 @@ public class DatabaseHandler extends Config {
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
         );
+        preparedStatement.setInt(1, userid);
+        preparedStatement.setString(2, "%" + author + "%");
 
-        preparedStatement.setString(1, "%" + author + "%");
-        int parameterIndex = 2;
+        int parameterIndex = 3;
         for(Genre genre: genres){
             preparedStatement.setInt(parameterIndex++, genre.id);
         }
@@ -97,16 +99,17 @@ public class DatabaseHandler extends Config {
         return preparedStatement.executeQuery();
     }
 
-    public ResultSet getBooksByName(String name, ObservableList<Genre> genres) throws SQLException{
+    public ResultSet getBooksByName(String name, ObservableList<Genre> genres, Integer userid) throws SQLException{
         String condition =
                 genres.isEmpty() ? "" :
                 "AND btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, group_concat(gen.name SEPARATOR \", \") as genres FROM books " +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
                 "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
                 "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
+                "LEFT JOIN users_to_books AS utb ON utb.idbook = books.idbooks AND utb.iduser = ? " +
                 "WHERE books.name LIKE ? " + condition +
                 "GROUP BY books.idbooks " +
                 "ORDER BY CASE WHEN books.name LIKE ? THEN 0 ELSE 1 END";
@@ -116,9 +119,9 @@ public class DatabaseHandler extends Config {
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
         );
-
-        preparedStatement.setString(1, "%" + name + "%");
-        int parameterIndex = 2;
+        preparedStatement.setInt(1, userid);
+        preparedStatement.setString(2, "%" + name + "%");
+        int parameterIndex = 3;
         for(Genre genre: genres){
             preparedStatement.setInt(parameterIndex++, genre.id);
         }
@@ -136,24 +139,28 @@ public class DatabaseHandler extends Config {
         return 0;
     }
 
-    public ResultSet getLastBooks(ObservableList<Genre> genres) throws SQLException{
+    public ResultSet getLastBooks(ObservableList<Genre> genres, Integer userid) throws SQLException{
         String condition =
                 genres.isEmpty() ? "" :
                 "WHERE btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, group_concat(gen.name SEPARATOR \", \") as genres FROM books " +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
                 "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
                 "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
+                "LEFT JOIN users_to_books AS utb ON utb.idbook = books.idbooks AND utb.iduser = ? " +
                 condition + "GROUP BY books.idbooks ORDER BY books.idbooks DESC";
+
+        System.out.println(query);
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
         );
-        int parameterIndex = 1;
+        preparedStatement.setInt(1, userid);
+        int parameterIndex = 2;
         for(Genre genre: genres){
             preparedStatement.setInt(parameterIndex++, genre.id);
         }
@@ -243,7 +250,7 @@ public class DatabaseHandler extends Config {
         return null;
     }
     public ResultSet getBookByUser(User user) throws SQLException{
-        String query = "SELECT books.* FROM users_to_books INNER JOIN books ON users_to_books.idbooks = books.idbooks WHERE users_to_books.idusers = ?";
+        String query = "SELECT books.* FROM users_to_books INNER JOIN books ON users_to_books.idbook = books.idbooks WHERE users_to_books.iduser = ?";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
@@ -255,13 +262,32 @@ public class DatabaseHandler extends Config {
         return preparedStatement.executeQuery();
     }
 
+    public void manageBook(Integer idbook, Integer iduser, Boolean flag) throws SQLException {
+        // flag true - take book. flag false - return book
+        String query = "UPDATE books SET number = number + ? WHERE idbooks = ?;";
+
+        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setInt(1, flag ? -1 : 1);
+        preparedStatement.setInt(2, idbook);
+        preparedStatement.executeUpdate();
+
+        query = flag ?
+                "INSERT INTO users_to_books (idbook, iduser) VALUES (?,?);" :
+                "UPDATE users_to_books SET status = FALSE WHERE idbook = ? AND iduser = ?;";
+
+        preparedStatement = getDbConnection().prepareStatement(query);
+        preparedStatement.setInt(1, idbook);
+        preparedStatement.setInt(2, iduser);
+        preparedStatement.executeUpdate();
+    }
+
     public Genre[] getGenres() throws SQLException {
         String query = "SELECT * FROM genres";
 
         Statement statement = getDbConnection().createStatement();
 
         ResultSet resSet = statement.executeQuery(query);
-        List<Genre> genres = new ArrayList<Genre>();
+        List<Genre> genres = new ArrayList<>();
         while(resSet.next()){
             genres.add(new Genre(
                     resSet.getInt("idgenre"),
