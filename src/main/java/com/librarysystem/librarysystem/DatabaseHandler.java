@@ -185,20 +185,6 @@ public class DatabaseHandler extends Config {
         }
     }
 
-
-    //    public void addUser(String name, String surname, String email, String password)
-//            throws SQLException {
-//        String query = "INSERT INTO users (name, surname, email, password) VALUES (?,?,?,?)";
-//
-//        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-//        preparedStatement.setString(1, name);
-//        preparedStatement.setString(2, surname);
-//        preparedStatement.setString(3, email);
-//        preparedStatement.setString(4, password);
-//
-//        preparedStatement.executeUpdate();
-//
-//    }
 //    public User getUserById(int id) throws SQLException{
 //        String query = "SELECT * FROM users WHERE idusers = ? LIMIT 1";
 //
