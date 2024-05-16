@@ -160,20 +160,45 @@ public class DatabaseHandler extends Config {
 
         return preparedStatement.executeQuery();
     }
-
-    public void addUser(String name, String surname, String email, String password)
-            throws SQLException {
+    public int addUser(String name, String surname, String email, String password) throws SQLException {
         String query = "INSERT INTO users (name, surname, email, password) VALUES (?,?,?,?)";
 
-        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
-        preparedStatement.setString(1, name);
-        preparedStatement.setString(2, surname);
-        preparedStatement.setString(3, email);
-        preparedStatement.setString(4, password);
+        try (Connection connection = getDbConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, password);
 
-        preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
 
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
+        }
     }
+
+
+    //    public void addUser(String name, String surname, String email, String password)
+//            throws SQLException {
+//        String query = "INSERT INTO users (name, surname, email, password) VALUES (?,?,?,?)";
+//
+//        PreparedStatement preparedStatement = getDbConnection().prepareStatement(query);
+//        preparedStatement.setString(1, name);
+//        preparedStatement.setString(2, surname);
+//        preparedStatement.setString(3, email);
+//        preparedStatement.setString(4, password);
+//
+//        preparedStatement.executeUpdate();
+//
+//    }
 //    public User getUserById(int id) throws SQLException{
 //        String query = "SELECT * FROM users WHERE idusers = ? LIMIT 1";
 //

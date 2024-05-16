@@ -65,8 +65,8 @@ public class RegistrationController extends Main{
                 { showErrorAlert("Fields must not be empty");}
             DatabaseHandler db = new DatabaseHandler();
             try{
-                db.addUser(name, surname, email, password);
-                User user = new User(name, surname, email, password, false);
+                int id = db.addUser(name, surname, email, password);
+                User user = new User(id, name, surname, email, password, false);
                 CurrentSession.getInstance().setCurrentUser(user);
                 switchToScene(event, "UserPage.fxml");
             } catch (SQLException e) {
