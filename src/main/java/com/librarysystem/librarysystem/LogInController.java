@@ -39,23 +39,25 @@ public class LogInController extends Main{
 
             if (email.isEmpty() || password.isEmpty()){
                 showError("Fields must not be empty");
-            }
-            DatabaseHandler db = new DatabaseHandler();
-            try{
-                User user = db.getUserByEmail(email, password);
-                if (user == null)
-                    showError("Account login error. Incorrect password");
-                else{
-                    CurrentSession.getInstance().setCurrentUser(user);
-                    if(user.getIsAdmin()){
-                        switchToScene(event, "ManageBook.fxml");
-                    }else{
-                        switchToScene(event, "UserPage.fxml");
+            }else{
+                DatabaseHandler db = new DatabaseHandler();
+                try{
+                    User user = db.getUserByEmail(email, password);
+                    if (user == null)
+                        showError("Account login error. Incorrect password");
+                    else{
+                        CurrentSession.getInstance().setCurrentUser(user);
+                        if(user.getIsAdmin()){
+                            switchToScene(event, "ManageBook.fxml");
+                        }else{
+                            switchToScene(event, "UserPage.fxml");
+                        }
                     }
+                }catch (Exception e){
+                    System.out.println(e);
                 }
-            }catch (Exception e){
-                System.out.println(e);
             }
+
         });
 
         goToRegistrationButton.setOnAction(event -> {

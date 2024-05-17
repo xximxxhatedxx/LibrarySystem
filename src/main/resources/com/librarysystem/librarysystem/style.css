@@ -1,33 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Lemon&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,300&display=swap');
 .backgroundFon{
-    -fx-background-color:#F9EFDB;
+    -fx-background-color:#638889;
 }
-
+.backBookFon{
+    -fx-background-color:#9DBC98;
+}
+.backgroundVBox{
+        -fx-background-color:#638889;
+}
+.label{
+    -fx-font-family: 'Times New Roman', sans-serif;
+}
 .mainButton{
     -fx-background-color:#9DBC98;
-    -fx-font-size:10pt;
     -fx-text-fill:white;
-    -fx-font-family: 'Lemon', serif;
+    -fx-font-size:22pt;
+    -fx-font-family: 'Times New Roman', sans-serif;
     -fx-background-radius: 15;
 }
 .activeButton{
     -fx-background-color:#638889;
-    -fx-font-size:14pt;
     -fx-text-fill:white;
-    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-font-family: 'Times New Roman', sans-serif;
 }
 .inactivenButton{
     -fx-background-color:#ada085;
-    -fx-font-size:14pt;
+    -fx-font-size:13pt;
     -fx-text-fill:white;
-    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-font-family: 'Times New Roman', sans-serif;
 }
 .input{
     -fx-border:0px;
     -fx-background-color:#9DBC98;
-    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-font-family: 'Times New Roman', sans-serif;
 }
 .backButton{
     -fx-background-color:#c7bfb1b4;
+    -fx-font-size:10pt;
+    -fx-font-family: 'Times New Roman', sans-serif;
+}
+.take{
+    -fx-background-color:#ada085;
+    -fx-font-family: 'Times New Roman', sans-serif;
+}
+.logOut{
+    -fx-background-color:#ada085;
+    -fx-font-size:15pt;
+    -fx-text-fill:white;
+    -fx-font-family: 'Times New Roman', sans-serif;
 }

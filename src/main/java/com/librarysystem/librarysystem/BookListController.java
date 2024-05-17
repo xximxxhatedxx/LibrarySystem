@@ -59,18 +59,21 @@ public class BookListController extends Main{
         Pane pane = new Pane();
         pane.setPrefSize(750, 45);
         pane.setPadding(new Insets(10,10,10,10));
-        pane.setStyle("-fx-background-color: #d9d9d9;");
+        pane.getStyleClass().add("backBookFon");
         Label name = new Label(name_);
+        name.getStyleClass().add("label");
         name.setLayoutX(14.0);
         name.setLayoutY(10.0);
         name.setPrefSize(300,25);
         name.setAlignment(Pos.CENTER_LEFT);
         Label author = new Label(author_);
+        author.getStyleClass().add("label");
         author.setAlignment(Pos.CENTER);
         author.setLayoutX(314.0);
         author.setLayoutY(10.0);
         author.setPrefSize(300,25);
         Button button = new Button("TAKE");
+        button.getStyleClass().add("take");
         button.setOnAction(event -> {
             try {
                 db.manageBook(id_ ,session.getCurrentUser().id, true);

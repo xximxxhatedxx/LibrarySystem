@@ -6,12 +6,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" styleClass="backgroundFon" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.MainPageController">
    <children>
-      <Label layoutX="210.0" layoutY="46.0" prefHeight="54.0" prefWidth="178.0" text="WELCOME">
+      <Label layoutX="215.0" layoutY="64.0" prefHeight="54.0" prefWidth="190.0" text="WELCOME">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button fx:id="logInUser" layoutX="107.0" layoutY="206.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="154.0" styleClass="mainButton" stylesheets="@style.css" text="Log in " />
-      <Button fx:id="logInAdmin" layoutX="338.0" layoutY="206.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="161.0" styleClass="mainButton" stylesheets="@style.css" text="Registration" />
+      <Button fx:id="logInUser" layoutX="107.0" layoutY="206.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="154.0" styleClass="mainButton" stylesheets="@style.css" text="Log in ">
+         <font>
+            <Font size="22.0" />
+         </font></Button>
+      <Button fx:id="logInAdmin" layoutX="300.0" layoutY="206.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="210.0" styleClass="mainButton" stylesheets="@style.css" text="Registration">
+         <font>
+            <Font size="22.0" />
+         </font></Button>
    </children>
 </AnchorPane>

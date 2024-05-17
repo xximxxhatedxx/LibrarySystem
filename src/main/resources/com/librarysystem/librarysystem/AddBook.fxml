@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -44,8 +43,8 @@
          <Font size="14.0" />
       </font></Label>
 
-    <CheckComboBox fx:id="genreCheckBox" prefWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-    <Button fx:id="confirmButton" alignment="CENTER" prefHeight="40.0" prefWidth="149.0" styleClass="activeButton" stylesheets="@style.css" text="Confirm" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+    <CheckComboBox fx:id="genreCheckBox" prefWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <Button fx:id="confirmButton" alignment="CENTER" prefHeight="40.0" prefWidth="149.0" styleClass="logOut" stylesheets="@style.css" text="Confirm" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
       <font>
          <Font size="23.0" />
       </font>

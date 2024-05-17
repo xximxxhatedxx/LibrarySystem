@@ -2,6 +2,7 @@ package com.librarysystem.librarysystem;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -50,24 +51,28 @@ public class ManageBookController extends Main{
     private AtomicReference<ResultSet> resultSet;
     private boolean isMovingForward = true;
     DatabaseHandler db = new DatabaseHandler();
+    //private CurrentSession currentSession = CurrentSession.getInstance();
 
 
     Pane create(String name_, String author_) {
         Pane pane = new Pane();
         pane.setPrefSize(750, 45);
         pane.setPadding(new Insets(10,10,10,10));
-        pane.setStyle("-fx-background-color: #d9d9d9;");
+        pane.getStyleClass().add("backBookFon");
         Label name = new Label(name_);
+        name.getStyleClass().add("label");
         name.setLayoutX(14.0);
         name.setLayoutY(10.0);
         name.setPrefSize(300,25);
         name.setAlignment(Pos.CENTER_LEFT);
         Label author = new Label(author_);
+        author.getStyleClass().add("label");
         author.setAlignment(Pos.CENTER);
         author.setLayoutX(314.0);
         author.setLayoutY(10.0);
         author.setPrefSize(300,25);
         Button button = new Button();
+        button.getStyleClass().add("take");
         button.setLayoutX(655.0);
         button.setLayoutY(10.0);
         button.setPrefSize(70,25);
@@ -108,30 +113,31 @@ public class ManageBookController extends Main{
         current = 1;
         currentPage.setText(Integer.toString(current));
         isMovingForward = true;
-        /*try {
-            String searchText = searchTextField.getText();
-            ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
-            if(searchText == null || searchText.isEmpty() || searchText.isBlank())
-                resultSet.set(db.getLastBooks(genres, session.getCurrentUser().id));
-            else if (Search.getSelectedToggle() == nameButton)
-                resultSet.set(db.getBooksByName(searchText, genres));
-            else if (Search.getSelectedToggle() == authorButton)
-                resultSet.set(db.getBooksByAuthor(searchText, genres));
-
-            pages = (int)Math.ceil(db.getDbLength() / 10.0);
-            pagesCount.setText(Integer.toString(pages));
-
-            for (int i = 0; i < 10; i++) {
-                if (resultSet.get().next())
-                    List.getChildren().add(create(
-                            resultSet.get().getString("name"),
-                            resultSet.get().getString("author")
-                    ));
-                else break;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
+//        try {
+//            String searchText = searchTextField.getText();
+//            ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
+//            User currentUser = currentSession.getCurrentUser();
+//            if(searchText == null || searchText.isEmpty() || searchText.isBlank())
+//                resultSet.set(db.getLastBooks(genres, currentUser.id));
+//            else if (Search.getSelectedToggle() == nameButton)
+//                resultSet.set(db.getBooksByName(searchText, genres, currentUser.id));
+//            else if (Search.getSelectedToggle() == authorButton)
+//                resultSet.set(db.getBooksByAuthor(searchText, genres, currentUser.id));
+//
+//            pages = (int)Math.ceil(db.getDbLength() / 10.0);
+//            pagesCount.setText(Integer.toString(pages));
+//
+//            for (int i = 0; i < 10; i++) {
+//                if (resultSet.get().next())
+//                    List.getChildren().add(create(
+//                            resultSet.get().getString("name"),
+//                            resultSet.get().getString("author")
+//                    ));
+//                else break;
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     @FXML
@@ -219,11 +225,10 @@ public class ManageBookController extends Main{
             });
 
             try{
-                DatabaseHandler db = new DatabaseHandler();
                 Genre[] genres = db.getGenres();
-                for(Genre genre: genres){
-                    GenreList.getItems().add(genre);
-                }
+                ObservableList<Genre> genreList = FXCollections.observableArrayList(genres);
+                GenreList.setItems(genreList);
+
             } catch (SQLException e){
                 e.printStackTrace();
             }

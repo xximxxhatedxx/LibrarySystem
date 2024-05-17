@@ -6,31 +6,34 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="450.0" prefWidth="600.0" styleClass="backgroundFon" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.LogInController">
-      <Label layoutX="268.0" layoutY="55.0" text="Log In">
+      <Label layoutX="252.0" layoutY="45.0" text="Log In">
          <font>
-            <Font size="20.0" />
+            <Font size="36.0" />
          </font>
       </Label>
       <PasswordField fx:id="passwordLogInField" layoutX="231.0" layoutY="170.0" styleClass="input" stylesheets="@style.css">
       <cursor>
          <Cursor fx:constant="TEXT" />
       </cursor></PasswordField>
-      <Button fx:id="goToRegistrationButton" layoutX="194.0" layoutY="327.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" styleClass="inactivenButton" stylesheets="@style.css" text="Registration">
+      <Button fx:id="goToRegistrationButton" layoutX="199.0" layoutY="327.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" styleClass="inactivenButton" stylesheets="@style.css" text="Registration">
       <cursor>
          <Cursor fx:constant="HAND" />
-      </cursor></Button>
+      </cursor>
+      <font>
+         <Font size="15.0" />
+      </font></Button>
       <TextField fx:id="emailLogInField" layoutX="231.0" layoutY="124.0" styleClass="input" stylesheets="@style.css">
       <cursor>
          <Cursor fx:constant="TEXT" />
       </cursor></TextField>
-      <Label layoutX="166.0" layoutY="128.0" text="Email">
+      <Label layoutX="178.0" layoutY="125.0" text="Email">
          <font>
-            <Font size="14.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="155.0" layoutY="174.0" text="Password">
+      <Label layoutX="151.0" layoutY="171.0" text="Password">
          <font>
-            <Font size="14.0" />
+            <Font size="18.0" />
          </font>
       </Label>
       <Label layoutX="284.0" layoutY="279.0" text="Or">
@@ -38,21 +41,16 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="296.0" layoutY="201.0" text="Forgot password?">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-   <Button fx:id="logInButton" layoutX="266.0" layoutY="233.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" styleClass="activeButton" stylesheets="@style.css" text="OK">
+   <Button fx:id="logInButton" layoutX="266.0" layoutY="233.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" styleClass="backButton" stylesheets="@style.css" text="OK">
       <font>
-         <Font size="7.0" />
+         <Font size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-   <Button fx:id="goBack" layoutX="25.0" layoutY="400.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="55.0" style="-fx-background-color: #c7bfb1b4;" text="BACK">
+   <Button fx:id="goBack" layoutX="40.0" layoutY="393.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="89.0" styleClass="backButton" stylesheets="@style.css" text="BACK">
       <font>
-         <Font size="11.0" />
+         <Font size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />

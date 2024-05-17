@@ -5,37 +5,37 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.BookListController">
+<AnchorPane prefHeight="600.0" prefWidth="1024.0" styleClass="backgroundFon" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.librarysystem.librarysystem.BookListController">
     <children>
-        <VBox fx:id="List" layoutX="221.0" layoutY="50.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #eeeeee;">
+        <VBox fx:id="List" layoutX="221.0" layoutY="50.0" prefHeight="500.0" prefWidth="750.0" styleClass="backgroundVBox" stylesheets="@style.css">
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
         </VBox>
-        <ToolBar layoutX="811.0" layoutY="550.0" prefHeight="40.0" prefWidth="160.0">
+        <ToolBar layoutX="811.0" layoutY="550.0" prefHeight="40.0" prefWidth="160.0" styleClass="backgroundFon" stylesheets="@style.css">
             <items>
-                <Button fx:id="backButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
-                <TextField fx:id="currentPage" alignment="CENTER" editable="false" prefWidth="35.0" text="1" />
-                <Label text="of" />
-                <TextField fx:id="pagesCount" alignment="CENTER" editable="false" prefWidth="35.0" text="100" />
-                <Button fx:id="forwardButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="&gt;" />
+                <Button fx:id="backButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #ada085;" stylesheets="@style.css" text="&lt;" />
+                <TextField fx:id="currentPage" alignment="CENTER" editable="false" prefWidth="35.0" styleClass="input" stylesheets="@style.css" text="1" />
+                <Label stylesheets="@style.css" text="of" />
+                <TextField fx:id="pagesCount" alignment="CENTER" editable="false" prefWidth="35.0" styleClass="input" stylesheets="@style.css" text="100" />
+                <Button fx:id="forwardButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #ada085;" stylesheets="@style.css" text="&gt;" />
             </items>
         </ToolBar>
-        <TextField fx:id="searchTextField" layoutX="221.0" layoutY="25.0" prefHeight="25.0" prefWidth="715.0" promptText="New books in our library" />
+        <TextField fx:id="searchTextField" layoutX="221.0" layoutY="25.0" prefHeight="25.0" prefWidth="715.0" promptText="New books in our library" styleClass="input" stylesheets="@style.css" />
 
         <fx:define>
             <ToggleGroup fx:id="Search" />
         </fx:define>
-        <ToggleButton fx:id="authorButton" layoutX="111.0" layoutY="52.0" prefHeight="25.0" prefWidth="60.0" text="author">
+        <ToggleButton fx:id="authorButton" layoutX="111.0" layoutY="52.0" prefHeight="25.0" prefWidth="60.0" styleClass="backButton" stylesheets="@style.css" text="author">
          <toggleGroup>
             <ToggleGroup fx:id="Search" />
          </toggleGroup></ToggleButton>
-        <ToggleButton fx:id="nameButton" layoutX="51.0" layoutY="52.0" prefHeight="25.0" prefWidth="60.0" selected="true" text="name" toggleGroup="$Search" />
-        <CheckListView fx:id="GenreList" layoutX="-27.0" layoutY="122.0" maxWidth="200.0" AnchorPane.leftAnchor="10.0">
+        <ToggleButton fx:id="nameButton" layoutX="51.0" layoutY="52.0" prefHeight="25.0" prefWidth="60.0" selected="true" styleClass="backButton" stylesheets="@style.css" text="name" toggleGroup="$Search" />
+        <CheckListView fx:id="GenreList" layoutX="-27.0" layoutY="122.0" maxWidth="200.0" styleClass="input" AnchorPane.leftAnchor="10.0">
 
         </CheckListView>
-      <Button fx:id="searchButton" layoutX="936.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="🔎" />
-      <Button fx:id="logOut" layoutX="29.0" layoutY="538.0" mnemonicParsing="false" text="log out" />
-      <Button fx:id="myPage" layoutX="119.0" layoutY="538.0" mnemonicParsing="false" text="My page" />
+      <Button fx:id="searchButton" layoutX="936.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" style="-fx-background-color: #ada085;" text="🔎" />
+      <Button fx:id="logOut" layoutX="29.0" layoutY="538.0" mnemonicParsing="false" styleClass="logOut" stylesheets="@style.css" text="log out" />
+      <Button fx:id="myPage" layoutX="119.0" layoutY="538.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="90.0" styleClass="inactivenButton" stylesheets="@style.css" text="My page" />
     </children>
 </AnchorPane>
