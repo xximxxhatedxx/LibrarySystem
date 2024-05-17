@@ -62,19 +62,20 @@ public class RegistrationController extends Main{
             if(!password.equals(rePassword)) {
                 showErrorAlert("Passwords do not match");
             }else if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || rePassword.isEmpty())
-                { showErrorAlert("Fields must not be empty");}
-            DatabaseHandler db = new DatabaseHandler();
-            try{
-                int id = db.addUser(name, surname, email, password);
-                User user = new User(id, name, surname, email, password, false);
-                CurrentSession.getInstance().setCurrentUser(user);
-                switchToScene(event, "UserPage.fxml");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                { showErrorAlert("Fields must not be empty");
+            }else {
+                DatabaseHandler db = new DatabaseHandler();
+                try{
+                    int id = db.addUser(name, surname, email, password);
+                    User user = new User(id, name, surname, email, password, false);
+                    CurrentSession.getInstance().setCurrentUser(user);
+                    switchToScene(event, "UserPage.fxml");
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            System.out.println();
         });
 
     }
