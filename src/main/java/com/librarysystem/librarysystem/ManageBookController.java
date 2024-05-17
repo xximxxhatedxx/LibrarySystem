@@ -46,15 +46,16 @@ public class ManageBookController extends Main{
     private ToggleGroup Search;
     @FXML
     private CheckListView GenreList;
+
     private int pages;
     private int current;
     private AtomicReference<ResultSet> resultSet;
     private boolean isMovingForward = true;
-    DatabaseHandler db = new DatabaseHandler();
-    //private CurrentSession currentSession = CurrentSession.getInstance();
+    private DatabaseHandler db = new DatabaseHandler();
+    private CurrentSession currentSession = CurrentSession.getInstance();
 
 
-    Pane create(String name_, String author_) {
+    Pane create(String name_, String author_, Boolean active_) {
         Pane pane = new Pane();
         pane.setPrefSize(750, 45);
         pane.setPadding(new Insets(10,10,10,10));
@@ -71,37 +72,23 @@ public class ManageBookController extends Main{
         author.setLayoutX(314.0);
         author.setLayoutY(10.0);
         author.setPrefSize(300,25);
-        Button button = new Button();
+        ToggleGroup toggleGroup = new ToggleGroup();
+        ToggleButton button = new ToggleButton(active_ ? "Active" : "Inactive");
         button.getStyleClass().add("take");
+        button.setToggleGroup(toggleGroup);
+        button.setSelected(!active_);
         button.setLayoutX(655.0);
         button.setLayoutY(10.0);
         button.setPrefSize(70,25);
         pane.getChildren().addAll(name, author, button);
         String nameStr = name.getText();
         String authorStr = author.getText();
-        boolean status;
-        try{
-            status = db.statusBook(authorStr, nameStr);
-            if(status){
-                button.setText("Active");
-            }else{
-                button.setText("Inactive");
-            }
-
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-        }
 
         button.setOnAction(event -> {
-            System.out.println("Button clicked for element " + name);
+            Toggle selected = toggleGroup.getSelectedToggle();
+            button.setText((selected != button) ? "Active" : "Inactive");
             try {
-                if(status){
-                    button.setText("Inactive");
-                    db.inactiveBook(authorStr, nameStr);
-                }else{
-                    button.setText("Active");
-                    db.activateBook(authorStr, nameStr);
-                }
+                db.activateBook(authorStr, nameStr, selected != button);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -113,31 +100,32 @@ public class ManageBookController extends Main{
         current = 1;
         currentPage.setText(Integer.toString(current));
         isMovingForward = true;
-//        try {
-//            String searchText = searchTextField.getText();
-//            ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
-//            User currentUser = currentSession.getCurrentUser();
-//            if(searchText == null || searchText.isEmpty() || searchText.isBlank())
-//                resultSet.set(db.getLastBooks(genres, currentUser.id));
-//            else if (Search.getSelectedToggle() == nameButton)
-//                resultSet.set(db.getBooksByName(searchText, genres, currentUser.id));
-//            else if (Search.getSelectedToggle() == authorButton)
-//                resultSet.set(db.getBooksByAuthor(searchText, genres, currentUser.id));
-//
-//            pages = (int)Math.ceil(db.getDbLength() / 10.0);
-//            pagesCount.setText(Integer.toString(pages));
-//
-//            for (int i = 0; i < 10; i++) {
-//                if (resultSet.get().next())
-//                    List.getChildren().add(create(
-//                            resultSet.get().getString("name"),
-//                            resultSet.get().getString("author")
-//                    ));
-//                else break;
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            String searchText = searchTextField.getText();
+            ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
+            User currentUser = currentSession.getCurrentUser();
+            if(searchText == null || searchText.isEmpty() || searchText.isBlank())
+                resultSet.set(db.getLastBooks(genres, currentUser.id, currentUser.isAdmin));
+            else if (Search.getSelectedToggle() == nameButton)
+                resultSet.set(db.getBooksByName(searchText, genres, currentUser.id, currentUser.isAdmin));
+            else if (Search.getSelectedToggle() == authorButton)
+                resultSet.set(db.getBooksByAuthor(searchText, genres, currentUser.id, currentUser.isAdmin));
+
+            pages = (int)Math.ceil(db.getDbLength() / 10.0);
+            pagesCount.setText(Integer.toString(pages));
+
+            for (int i = 0; i < 10; i++) {
+                if (resultSet.get().next())
+                    List.getChildren().add(create(
+                            resultSet.get().getString("name"),
+                            resultSet.get().getString("author"),
+                            resultSet.get().getBoolean("active")
+                    ));
+                else break;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -167,7 +155,8 @@ public class ManageBookController extends Main{
                         if (resultSet.get().next()) {
                             List.getChildren().add(create(
                                     resultSet.get().getString("name"),
-                                    resultSet.get().getString("author")
+                                    resultSet.get().getString("author"),
+                                    resultSet.get().getBoolean("active")
                             ));
                         }
                         else break;
@@ -197,7 +186,8 @@ public class ManageBookController extends Main{
                         if (resultSet.get().previous()) {
                             List.getChildren().add(0, create(
                                     resultSet.get().getString("name"),
-                                    resultSet.get().getString("author")
+                                    resultSet.get().getString("author"),
+                                    resultSet.get().getBoolean("active")
                             ));
                         }
                         else break;
@@ -225,6 +215,7 @@ public class ManageBookController extends Main{
             });
 
             try{
+                DatabaseHandler db = new DatabaseHandler();
                 Genre[] genres = db.getGenres();
                 ObservableList<Genre> genreList = FXCollections.observableArrayList(genres);
                 GenreList.setItems(genreList);

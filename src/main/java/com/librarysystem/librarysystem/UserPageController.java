@@ -43,6 +43,8 @@ public class UserPageController extends Main {
     private int current;
     private AtomicReference<ResultSet> resultSet;
     private boolean isMovingForward = true;
+    private CurrentSession currentSession = CurrentSession.getInstance();
+    private DatabaseHandler db = new DatabaseHandler();
 
     private void setUserInfo(User user) {
         nameLabel.setText(user.getName());
@@ -50,7 +52,7 @@ public class UserPageController extends Main {
         emailLabel.setText(user.getEmail());
     }
 
-    Pane create(String name_, String author_) {
+    Pane create(Integer id_, String name_, String author_, Boolean status_){
         Pane pane = new Pane();
         pane.setPrefSize(450, 45);
         pane.setPadding(new Insets(10, 10, 10, 10));
@@ -69,18 +71,29 @@ public class UserPageController extends Main {
         author.setLayoutX(150.0);
         author.setLayoutY(10.0);
         author.setPrefSize(300, 25);
-        Button button = new Button("TAKE");
+        Button button = new Button(status_ ? "Return" : "✅");
         button.getStyleClass().add("take");
         button.setLayoutX(450.0);
         button.setLayoutY(10.0);
         button.setPrefSize(70, 25);
+        button.setOnAction(event -> {
+            try {
+                db.manageBook(id_, currentSession.getCurrentUser().id, false);
+                button.setDisable(true);
+                button.setText("✅");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        if (!status_) button.setDisable(true);
+
         pane.getChildren().addAll(name, author, button);
         return pane;
     }
 
     @FXML
     void initialize() throws IOException, SQLException {
-        User currentUser = CurrentSession.getInstance().getCurrentUser();
+        User currentUser = currentSession.getCurrentUser();
         setUserInfo(currentUser);
 
         logOutButton.setOnAction(event -> {
@@ -100,7 +113,7 @@ public class UserPageController extends Main {
         });
 
         List.setSpacing(5);
-        DatabaseHandler db = new DatabaseHandler();
+
         current = 1;
         resultSet = new AtomicReference<>(db.getBookByUser(currentUser));
         int records = db.getDbLength();
@@ -110,8 +123,10 @@ public class UserPageController extends Main {
         for (int i = 0; i < 10; i++) {
             if (resultSet.get().next())
                 List.getChildren().add(create(
+                        resultSet.get().getInt("idbooks"),
                         resultSet.get().getString("name"),
-                        resultSet.get().getString("author")
+                        resultSet.get().getString("author"),
+                        resultSet.get().getBoolean("status")
                 ));
             else break;
         }
@@ -131,8 +146,10 @@ public class UserPageController extends Main {
                 for (int i = 0; i < 10; i++) {
                     if (resultSet.get().next()) {
                         List.getChildren().add(create(
+                                resultSet.get().getInt("idbooks"),
                                 resultSet.get().getString("name"),
-                                resultSet.get().getString("author")
+                                resultSet.get().getString("author"),
+                                resultSet.get().getBoolean("status")
                         ));
                     } else break;
                 }
@@ -160,8 +177,10 @@ public class UserPageController extends Main {
                 for (int i = 0; i < 10; i++) {
                     if (resultSet.get().previous()) {
                         List.getChildren().add(0, create(
+                                resultSet.get().getInt("idbooks"),
                                 resultSet.get().getString("name"),
-                                resultSet.get().getString("author")
+                                resultSet.get().getString("author"),
+                                resultSet.get().getBoolean("status")
                         ));
                     } else break;
                 }
