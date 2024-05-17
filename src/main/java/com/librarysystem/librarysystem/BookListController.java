@@ -95,12 +95,13 @@ public class BookListController extends Main{
         try {
             String searchText = searchTextField.getText();
             ObservableList<Genre> genres = GenreList.getCheckModel().getCheckedItems();
+            User currentUser = session.getCurrentUser();
             if(searchText == null || searchText.isEmpty() || searchText.isBlank())
-                resultSet.set(db.getLastBooks(genres, session.getCurrentUser().id));
+                resultSet.set(db.getLastBooks(genres, currentUser.id, currentUser.isAdmin));
             else if (Search.getSelectedToggle() == nameButton)
-                resultSet.set(db.getBooksByName(searchText, genres, session.getCurrentUser().id));
+                resultSet.set(db.getBooksByName(searchText, genres, currentUser.id, currentUser.isAdmin));
             else if (Search.getSelectedToggle() == authorButton)
-                resultSet.set(db.getBooksByAuthor(searchText, genres, session.getCurrentUser().id));
+                resultSet.set(db.getBooksByAuthor(searchText, genres, currentUser.id, currentUser.isAdmin));
 
             pages = (int)Math.ceil(db.getDbLength() / 10.0);
             pagesCount.setText(Integer.toString(pages));

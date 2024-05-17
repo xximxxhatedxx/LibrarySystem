@@ -35,50 +35,29 @@ public class DatabaseHandler extends Config {
         if (resSet.next()) return resSet.getInt("ind");
         return 0;
     }
-    public boolean statusBook(String author, String name) throws SQLException {
-        String query = "SELECT active FROM books WHERE author = ? AND name = ?";
+
+    public void activateBook(String author, String name, Boolean flag) throws SQLException {
+        String query = "UPDATE books SET active = ? WHERE author = ? AND name = ?";
         try (PreparedStatement preparedStatement = getDbConnection().prepareStatement(query)) {
-            preparedStatement.setString(1, author);
-            preparedStatement.setString(2, name);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int activeStatus = resultSet.getInt("active");
-                    return activeStatus == 1;
-                } else {
-                    return false;
-                }
-            }
-        }
-    }
-    public void inactiveBook(String author, String name) throws SQLException {
-        String query = "UPDATE books SET active = 0 WHERE author = ? AND name = ?";
-        try (PreparedStatement preparedStatement = getDbConnection().prepareStatement(query)) {
-            preparedStatement.setString(1, author);
-            preparedStatement.setString(2, name);
-            preparedStatement.executeUpdate();
-        }
-    }
-    public void activateBook(String author, String name) throws SQLException {
-        String query = "UPDATE books SET active = 1 WHERE author = ? AND name = ?";
-        try (PreparedStatement preparedStatement = getDbConnection().prepareStatement(query)) {
-            preparedStatement.setString(1, author);
-            preparedStatement.setString(2, name);
+            preparedStatement.setBoolean(1, flag);
+            preparedStatement.setString(2, author);
+            preparedStatement.setString(3, name);
             preparedStatement.executeUpdate();
         }
     }
 
-    public ResultSet getBooksByAuthor(String author, ObservableList<Genre> genres, Integer userid) throws SQLException{
+    public ResultSet getBooksByAuthor(String author, ObservableList<Genre> genres, Integer userid, Boolean isAdmin) throws SQLException{
         String condition =
                 genres.isEmpty() ? "" :
                 "AND btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, books.active, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
                 "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
                 "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
                 "LEFT JOIN users_to_books AS utb ON utb.idbook = books.idbooks AND utb.iduser = ? " +
-                "WHERE books.author LIKE ? " + condition +
+                "WHERE books.author LIKE ? " + condition + (isAdmin ? "" : "AND books.active = 1 ") +
                 "GROUP BY books.idbooks " +
                 "ORDER BY CASE WHEN books.author LIKE ? THEN 0 ELSE 1 END";
 
@@ -99,18 +78,18 @@ public class DatabaseHandler extends Config {
         return preparedStatement.executeQuery();
     }
 
-    public ResultSet getBooksByName(String name, ObservableList<Genre> genres, Integer userid) throws SQLException{
+    public ResultSet getBooksByName(String name, ObservableList<Genre> genres, Integer userid, Boolean isAdmin) throws SQLException{
         String condition =
                 genres.isEmpty() ? "" :
                 "AND btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, books.active, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
                 "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
                 "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
                 "LEFT JOIN users_to_books AS utb ON utb.idbook = books.idbooks AND utb.iduser = ? " +
-                "WHERE books.name LIKE ? " + condition +
+                "WHERE books.name LIKE ? " + condition  + (isAdmin ? "" : "AND books.active = 1 ") +
                 "GROUP BY books.idbooks " +
                 "ORDER BY CASE WHEN books.name LIKE ? THEN 0 ELSE 1 END";
 
@@ -139,15 +118,15 @@ public class DatabaseHandler extends Config {
         return 0;
     }
 
-    public ResultSet getLastBooks(ObservableList<Genre> genres, Integer userid) throws SQLException{
+    public ResultSet getLastBooks(ObservableList<Genre> genres, Integer userid, Boolean isAdmin) throws SQLException{
         String condition =
-                genres.isEmpty() ? "" :
+                genres.isEmpty()  ? "" :
                 "WHERE btg.idgenre IN (" +
                 IntStream.range(0, genres.size()).mapToObj(i -> "?")
                 .collect(Collectors.joining(", ")) + ") ";
 
-        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
-                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " +
+        String query = "SELECT SQL_CALC_FOUND_ROWS books.idbooks, books.author, books.name, books.number, books.active, group_concat(gen.name SEPARATOR \", \") as genres, MAX(utb.status) as status FROM books " +
+                "INNER JOIN books_to_genres AS btg ON books.idbooks = btg.idbook " + (isAdmin ? "" : "AND books.active = 1 ") +
                 "INNER JOIN genres AS gen ON gen.idgenre = btg.idgenre " +
                 "LEFT JOIN users_to_books AS utb ON utb.idbook = books.idbooks AND utb.iduser = ? " +
                 condition + "GROUP BY books.idbooks ORDER BY books.idbooks DESC";
@@ -250,7 +229,8 @@ public class DatabaseHandler extends Config {
         return null;
     }
     public ResultSet getBookByUser(User user) throws SQLException{
-        String query = "SELECT books.* FROM users_to_books INNER JOIN books ON users_to_books.idbook = books.idbooks WHERE users_to_books.iduser = ?";
+        String query = "SELECT books.idbooks, books.author, books.name, utb.status FROM users_to_books as utb " +
+                "INNER JOIN books ON utb.idbook = books.idbooks WHERE utb.iduser = ? ORDER BY utb.id DESC";
 
         PreparedStatement preparedStatement = getDbConnection().prepareStatement(
                 query,
