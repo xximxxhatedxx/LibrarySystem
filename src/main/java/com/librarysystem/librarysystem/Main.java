@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,10 +19,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage _stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
-        _stage.setTitle("main-page");
+        Parent root = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
+        _stage.setTitle("Library");
         _stage.setScene(new Scene(root));
         _stage.setResizable(false);
+        Image icon = new Image(getClass().getResourceAsStream("icon.png"));
+        _stage.getIcons().add(icon);
         _stage.show();
     }
 
